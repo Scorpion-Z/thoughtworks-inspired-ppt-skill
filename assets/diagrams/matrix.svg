@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420">
+  <rect width="900" height="420" fill="#ffffff"/>
+  <text x="40" y="48" font-family="Arial" font-size="26" font-weight="700" fill="#111">Priority Matrix</text>
+  <line x1="170" y1="330" x2="780" y2="330" stroke="#111" stroke-width="3"/>
+  <line x1="170" y1="330" x2="170" y2="90" stroke="#111" stroke-width="3"/>
+  <line x1="475" y1="330" x2="475" y2="90" stroke="#d8d8d2" stroke-width="2"/>
+  <line x1="170" y1="210" x2="780" y2="210" stroke="#d8d8d2" stroke-width="2"/>
+  <text x="790" y="336" font-family="Arial" font-size="16" fill="#111">Impact</text>
+  <text x="120" y="84" font-family="Arial" font-size="16" fill="#111">Feasibility</text>
+  <circle cx="590" cy="150" r="18" fill="#bd4257"/><text x="620" y="156" font-family="Arial" font-size="18" fill="#111">Pilot first</text>
+  <circle cx="340" cy="165" r="18" fill="#111"/><text x="370" y="171" font-family="Arial" font-size="18" fill="#111">Prepare</text>
+  <circle cx="610" cy="270" r="18" fill="#00a8a8"/><text x="640" y="276" font-family="Arial" font-size="18" fill="#111">Assess</text>
+</svg>

@@ -1,0 +1,28 @@
+[
+  {
+    "type": "cover",
+    "title": "以数智化转型提升集团公司经营穿透能力",
+    "message": "围绕及时性、准确性、穿透性建立能力体系",
+    "visual_suggestion": "dark cover with abstract shape"
+  },
+  {
+    "type": "insight",
+    "title": "关键不在页面呈现，而在管理规则、数据责任和闭环机制同步固化",
+    "content_blocks": ["统一口径", "源头治理", "穿透闭环"]
+  },
+  {
+    "type": "diagnosis",
+    "title": "当前差距主要集中在口径、来源、责任、校核和闭环五个方面",
+    "visual_suggestion": "matrix"
+  },
+  {
+    "type": "architecture",
+    "title": "形成管理规则牵引、数据治理支撑、平台能力承载、场景应用落地的框架",
+    "visual_suggestion": "layered capability framework"
+  },
+  {
+    "type": "roadmap",
+    "title": "按照试点先行、标准固化、全面推广三阶段推进",
+    "visual_suggestion": "three-stage roadmap"
+  }
+]

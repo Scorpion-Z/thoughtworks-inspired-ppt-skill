@@ -1,0 +1,41 @@
+{
+  "name": "thoughtworks-inspired-ppt-skill",
+  "version": "0.1.0",
+  "description": "Generate Thoughtworks-inspired HTML PPT decks and reusable Codex skill files.",
+  "type": "module",
+  "bin": {
+    "thoughtworks-ppt-skill": "./bin/thoughtworks-ppt-skill.js"
+  },
+  "scripts": {
+    "demo": "node ./bin/thoughtworks-ppt-skill.js init ./demo-deck --demo",
+    "build:example": "node ./bin/thoughtworks-ppt-skill.js init ./example-output --demo"
+  },
+  "keywords": [
+    "ppt",
+    "presentation",
+    "html",
+    "codex-skill",
+    "thoughtworks-inspired",
+    "deck"
+  ],
+  "author": "博哥",
+  "license": "MIT",
+  "files": [
+    "bin",
+    "lib",
+    "templates",
+    "styles",
+    "examples",
+    "assets",
+    "SKILL.md",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Scorpion-Z/thoughtworks-inspired-ppt-skill.git"
+  },
+  "homepage": "https://github.com/Scorpion-Z/thoughtworks-inspired-ppt-skill#readme",
+  "bugs": {
+    "url": "https://github.com/Scorpion-Z/thoughtworks-inspired-ppt-skill/issues"
+  }
+}
