@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420">
   <rect width="900" height="420" fill="#ffffff"/>
-  <text x="40" y="48" font-family="Arial" font-size="26" font-weight="700" fill="#111">Capability Radar</text>
-  <g transform="translate(450,220)" fill="none" stroke="#d8d8d2">
+  <text x="40" y="48" font-family="Inter, Arial" font-size="26" font-weight="700" fill="#000000">Capability Radar</text>
+  <g transform="translate(450,220)" fill="none" stroke="#cfd7da">
     <polygon points="0,-120 114,-37 71,97 -71,97 -114,-37"/>
     <polygon points="0,-80 76,-25 47,65 -47,65 -76,-25"/>
     <polygon points="0,-40 38,-12 24,32 -24,32 -38,-12"/>
@@ -10,9 +10,9 @@
     <line x1="0" y1="0" x2="71" y2="97"/>
     <line x1="0" y1="0" x2="-71" y2="97"/>
     <line x1="0" y1="0" x2="-114" y2="-37"/>
-    <polygon points="0,-92 72,-23 43,58 -50,69 -90,-29" fill="#bd4257" opacity="0.25" stroke="#bd4257" stroke-width="3"/>
+    <polygon points="0,-92 72,-23 43,58 -50,69 -90,-29" fill="#F2617A" opacity="0.25" stroke="#F2617A" stroke-width="3"/>
   </g>
-  <g font-family="Arial" font-size="16" fill="#111" text-anchor="middle">
+  <g font-family="Inter, Arial" font-size="16" fill="#000000" text-anchor="middle">
     <text x="450" y="82">Governance</text><text x="596" y="181">Data</text><text x="540" y="348">Platform</text><text x="360" y="348">Scenario</text><text x="304" y="181">Operations</text>
   </g>
 </svg>

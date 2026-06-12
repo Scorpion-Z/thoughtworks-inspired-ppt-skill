@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420">
   <rect width="900" height="420" fill="#ffffff"/>
-  <text x="40" y="48" font-family="Arial" font-size="26" font-weight="700" fill="#111">Data Closed Loop</text>
-  <g fill="none" stroke="#111" stroke-width="3">
+  <text x="40" y="48" font-family="Inter, Arial" font-size="26" font-weight="700" fill="#000000">Data Closed Loop</text>
+  <g fill="none" stroke="#000000" stroke-width="3">
     <path d="M450 100 A110 110 0 1 1 449 100"/>
-    <path d="M545 150 l40 -10 l-20 36" fill="#111"/>
+    <path d="M545 150 l40 -10 l-20 36" fill="#000000"/>
   </g>
-  <g font-family="Arial" font-size="18" text-anchor="middle">
-    <circle cx="450" cy="80" r="42" fill="#111"/><text x="450" y="86" fill="#fff">Collect</text>
-    <circle cx="570" cy="200" r="42" fill="#f7f7f4" stroke="#d8d8d2"/><text x="570" y="206" fill="#111">Check</text>
-    <circle cx="450" cy="320" r="42" fill="#bd4257"/><text x="450" y="326" fill="#fff">Act</text>
-    <circle cx="330" cy="200" r="42" fill="#f7f7f4" stroke="#d8d8d2"/><text x="330" y="206" fill="#111">Analyze</text>
+  <g font-family="Inter, Arial" font-size="18" text-anchor="middle">
+    <circle cx="450" cy="80" r="42" fill="#000000"/><text x="450" y="86" fill="#fff">Collect</text>
+    <circle cx="570" cy="200" r="42" fill="#EDF1F3" stroke="#cfd7da"/><text x="570" y="206" fill="#000000">Check</text>
+    <circle cx="450" cy="320" r="42" fill="#F2617A"/><text x="450" y="326" fill="#fff">Act</text>
+    <circle cx="330" cy="200" r="42" fill="#EDF1F3" stroke="#cfd7da"/><text x="330" y="206" fill="#000000">Analyze</text>
   </g>
 </svg>
