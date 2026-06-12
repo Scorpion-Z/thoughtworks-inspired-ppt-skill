@@ -47,6 +47,7 @@ function installSkill(target = defaultLocalSkillDir) {
   copyIfPresent('templates', out);
   copyIfPresent('styles', out);
   copyIfPresent('assets', out);
+  copyIfPresent('scripts', out);
   copyIfPresent('examples', out);
   copyIfPresent('references', out);
   writeGeneratedReadme(out, 'skill');
@@ -54,17 +55,30 @@ function installSkill(target = defaultLocalSkillDir) {
   console.log('Use it in Codex: 请读取 .codex/skills/thoughtworks-inspired-ppt-skill/SKILL.md，并按该规范生成 HTML PPT。');
 }
 
-function initDeck(target) {
+function writeDeckIndex(out, demoMode) {
+  let html = fs.readFileSync(path.join(root, 'templates', 'index.html'), 'utf8');
+  if (demoMode) {
+    html = html.replace(
+      '<title>[必填] 替换为 PPT 标题</title>',
+      '<title>以数智化支撑集团经营穿透能力提升</title>'
+    );
+  }
+  fs.writeFileSync(path.join(out, 'index.html'), html);
+}
+
+function initDeck(target, options = {}) {
   if (!target) {
     usage();
     process.exit(1);
   }
   const out = path.resolve(process.cwd(), target);
   fs.mkdirSync(out, { recursive: true });
-  copyRecursive(path.join(root, 'templates', 'index.html'), path.join(out, 'index.html'));
+  writeDeckIndex(out, Boolean(options.demoMode));
   copyIfPresent('styles', out);
   copyIfPresent('assets', out);
   copyIfPresent('references', out);
+  copyIfPresent('scripts', out);
+  fs.mkdirSync(path.join(out, 'images'), { recursive: true });
   copyRecursive(path.join(root, 'SKILL.md'), path.join(out, 'SKILL.md'));
   copyIfPresent('examples', out);
   writeGeneratedReadme(out, 'deck');
@@ -72,7 +86,23 @@ function initDeck(target) {
 }
 
 function doctor() {
-  const required = ['SKILL.md', 'README.md', 'templates', 'styles', 'assets', 'references'];
+  const required = [
+    'SKILL.md',
+    'README.md',
+    'templates/index.html',
+    'styles/thoughtworks-inspired.css',
+    'assets/diagrams',
+    'references/style-lock.md',
+    'references/layout-lock.md',
+    'references/layouts.md',
+    'references/themes.md',
+    'references/components.md',
+    'references/image-prompts.md',
+    'references/checklist.md',
+    'scripts/validate-thoughtworks-deck.mjs',
+    'scripts/visual-check-deck.mjs',
+    'examples/full-layout-demo/index.html',
+  ];
   const missing = required.filter((item) => !exists(item));
   if (missing.length) {
     console.error(`Missing required paths: ${missing.join(', ')}`);
@@ -88,6 +118,8 @@ function usage() {
   npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill global
   npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill init <target-dir> [--demo]
   npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill doctor
+  npm run check
+  npm run visual:demo
 
 Skill registry style:
   npx skills add https://github.com/Scorpion-Z/thoughtworks-inspired-ppt-skill --skill thoughtworks-inspired-ppt-skill
@@ -102,7 +134,9 @@ Examples:
   npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill init my-deck --demo`);
 }
 
-const [cmd, target] = process.argv.slice(2);
+const argv = process.argv.slice(2);
+const [cmd, target] = argv;
+const demoMode = argv.includes('--demo');
 
 if (!cmd) {
   installSkill(defaultLocalSkillDir);
@@ -125,7 +159,7 @@ if (cmd === 'global') {
 }
 
 if (cmd === 'init') {
-  initDeck(target);
+  initDeck(target, { demoMode });
   process.exit(0);
 }
 

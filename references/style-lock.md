@@ -1,46 +1,55 @@
 # Style Lock
 
-本文件定义 Thoughtworks-inspired 风格的硬约束。生成任何 deck 前先读本文件。
+Generate Thoughtworks-inspired decks with public-brand-language constraints, not official template reproduction.
 
-## 基本定位
+## Source Boundary
 
-本 Skill 只提供受公开设计语言启发的演示文稿风格。不得使用 Thoughtworks 官方 logo、官方模板、官方插画、官网截图作为模板素材，也不得暗示官方授权。
+Use these public cues only:
 
-## 视觉硬规则
+- Typography: Bitter Bold for English headlines, Inter for body and callouts, Noto Serif SC Black for simplified Chinese headlines, Noto Sans SC for simplified Chinese body text.
+- Palette: talc white, mist gray, onyx black, flamingo pink, wave blue, turmeric yellow, jade green, sapphire blue, amethyst purple.
+- Design method: use 50/50 canvas division and repeated rectangular blocks to pair expressive visual areas with clean typography areas.
+- Presentation style: simple bold text areas, flat graphics, consistent diagrams, strong legibility.
 
-1. 每页只表达一个核心观点。
-2. 标题必须结论化，避免弱标题。
-3. 一份 deck 只使用一套主题色。
-4. 强调色只用于关键结论、重要数字、风险提示、路线节点和图形焦点。
-5. 页面以黑白灰为基础，避免多彩拼盘。
-6. 不使用复杂渐变、重阴影、厚边框和装饰性图片。
-7. 优先使用结构图、矩阵图、路线图、能力框架图、雷达图和闭环图。
-8. 页脚、安全区、页码和来源说明保持克制。
-9. 投屏阅读优先，中文正文不低于 18px，图注不低于 14px。
-10. 页面拥挤时拆页，不能靠压缩字号硬塞。
+Do not use Thoughtworks official logo, official deck templates, official illustration files, official photography library, website screenshots, brand-pack assets, or the official oblique as decoration. This skill is only style-inspired.
 
-## 版式硬规则
+## Visual Rules
 
-1. 每个 `<section class="slide">` 必须写 `data-layout="Txx"`。
-2. 页面结构从 `references/layouts.md` 选择。
-3. 新增实验版式时，必须在注释中写明 `data-layout="TX"`。
-4. 标题区、内容区、页脚区保持稳定，不随意漂移。
-5. 左右两栏页面需要视觉底线对齐。
-6. 卡片数量超过 4 个时，优先拆成两页。
-7. 表格页面最多 4 行 4 列，超过后改为分组卡片或附录。
+1. Use one core message per slide.
+2. Make every title a conclusion or decision sentence, not a weak topic label.
+3. Use one theme accent per deck; do not mix multiple accent colors for decoration.
+4. Set major headlines in black or white whenever possible; use accent color for callouts, numbers, bullets, diagram nodes, and one highlighted phrase only.
+5. Use flat rectangular areas, thin lines, large type, and generous whitespace.
+6. Do not use gradients, heavy shadows, rounded cards, emoji, decorative stock imagery, or oblique-like marks.
+7. Use photos only when they are real evidence or case context; never crop them into circles, triangles, or arbitrary shapes.
+8. Prefer vector-like diagrams, capability frameworks, matrices, roadmaps, radar views, data loops, and evidence panels.
+9. Keep page numbers and source notes in a stable footer. Do not place conclusions in the footer.
+10. Presentation readability wins over density: body text >= 18px, captions and footers >= 14px.
 
-## 内容硬规则
+## Layout Rules
 
-1. 不编造数据。
-2. 未经材料支撑的判断，标注为建议、待核实或需进一步调研。
-3. 央企内部汇报使用客观、中性、克制表达。
-4. 少用口号化表达，多写具体管理动作。
-5. 不把系统建设写成万能解决方案。
-6. 技术内容需要说明业务价值、管理机制和落地边界。
+1. Every slide must use `<section class="slide ... " data-layout="Txx">`.
+2. Use only registered layouts from `references/layout-lock.md` unless the user explicitly asks for an experimental layout.
+3. Keep theme rhythm varied: 8+ slides need at least one dark/wave/accent page and one `T03` section divider.
+4. Do not use more than four cards in one row. Split dense material into two pages.
+5. Tables max out at 4 columns and 4 body rows. Beyond that, use grouped cards or an appendix.
+6. Diagram labels should remain readable HTML text when possible; do not hide dense labels inside tiny SVG text.
+7. Image pages must define `data-image-slot` on local `images/` assets.
 
-## 生成顺序
+## Content Rules
 
-1. 先输出页面节奏表。
-2. 再选择主题和版式。
-3. 再写 HTML。
-4. 最后自检并浏览器预览。
+1. Do not invent data.
+2. Mark unsupported analysis as "建议", "待核实", "可进一步调研", or "需材料确认".
+3. For state-owned enterprise or executive reporting, use restrained management language: responsibilities, mechanisms, scenarios, paths, controls, and evidence.
+4. Avoid consulting slogans that overpromise: "颠覆式", "一屏统管全部问题", "全面赋能所有业务", "世界一流方案".
+5. Connect technical claims to business value, management mechanism, operating boundary, and implementation path.
+
+## Generation Order
+
+1. Read `style-lock.md`, `themes.md`, `layout-lock.md`, `layouts.md`, `components.md`, and `checklist.md`.
+2. Choose one theme from `themes.md`.
+3. Draft a page rhythm table with page number, layout id, core message, visual form, and theme class.
+4. Copy `templates/index.html`, replace the title placeholder, and replace demo slides.
+5. Use layout skeletons from `layouts.md`.
+6. Run `node scripts/validate-thoughtworks-deck.mjs path/to/index.html`.
+7. Open the HTML in a browser and inspect every slide.

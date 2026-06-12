@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420">
   <rect width="900" height="420" fill="#ffffff"/>
-  <text x="40" y="48" font-family="Arial" font-size="26" font-weight="700" fill="#111">Three-stage Roadmap</text>
-  <line x1="110" y1="200" x2="780" y2="200" stroke="#111" stroke-width="4"/>
-  <g font-family="Arial">
-    <circle cx="180" cy="200" r="18" fill="#bd4257"/><text x="140" y="250" font-size="21" font-weight="700">Pilot</text><text x="110" y="280" font-size="16" fill="#4a4a4a">start with key scenarios</text>
-    <circle cx="450" cy="200" r="18" fill="#bd4257"/><text x="400" y="250" font-size="21" font-weight="700">Standardize</text><text x="370" y="280" font-size="16" fill="#4a4a4a">unify rules and data</text>
-    <circle cx="720" cy="200" r="18" fill="#bd4257"/><text x="675" y="250" font-size="21" font-weight="700">Scale</text><text x="650" y="280" font-size="16" fill="#4a4a4a">expand and optimize</text>
+  <text x="40" y="48" font-family="Inter, Arial" font-size="26" font-weight="700" fill="#000000">Three-stage Roadmap</text>
+  <line x1="110" y1="200" x2="780" y2="200" stroke="#000000" stroke-width="4"/>
+  <g font-family="Inter, Arial">
+    <circle cx="180" cy="200" r="18" fill="#F2617A"/><text x="140" y="250" font-size="21" font-weight="700">Pilot</text><text x="110" y="280" font-size="16" fill="#3f474b">start with key scenarios</text>
+    <circle cx="450" cy="200" r="18" fill="#F2617A"/><text x="400" y="250" font-size="21" font-weight="700">Standardize</text><text x="370" y="280" font-size="16" fill="#3f474b">unify rules and data</text>
+    <circle cx="720" cy="200" r="18" fill="#F2617A"/><text x="675" y="250" font-size="21" font-weight="700">Scale</text><text x="650" y="280" font-size="16" fill="#3f474b">expand and optimize</text>
   </g>
 </svg>

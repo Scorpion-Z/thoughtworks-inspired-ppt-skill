@@ -2,87 +2,187 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1280, initial-scale=1.0" />
-  <title>Thoughtworks-inspired Deck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[必填] 替换为 PPT 标题</title>
   <link rel="stylesheet" href="styles/thoughtworks-inspired.css" />
 </head>
-<body>
-  <main class="deck">
+<body class="theme-wave">
+  <main class="deck" id="deck">
+    <div class="deck-frame" id="deckFrame">
 
-    <section class="slide cover dark">
-      <div class="kicker">Digital transformation</div>
-      <h1 class="title">以数智化支撑集团经营穿透能力提升</h1>
-      <p class="subtitle">围绕经营数据及时性、准确性和穿透性，建立指标、数据、场景、平台和机制协同推进的能力体系。</p>
-      <div class="footer"><span>Thoughtworks-inspired style</span><span>01</span></div>
-      <div class="oblique-shape"></div>
-    </section>
+      <section class="slide split active" data-layout="T01">
+        <div class="half paper">
+          <div class="kicker">Digital transformation</div>
+          <h1 class="title xl">以数智化支撑集团经营穿透能力提升</h1>
+          <p class="subtitle">围绕经营数据及时性、准确性和穿透性，建立指标、数据、场景、平台和机制协同推进的能力体系。</p>
+        </div>
+        <div class="half visual">
+          <div class="tile-field" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="footer"><span>Thoughtworks-inspired style</span><span>01</span></div>
+      </section>
 
-    <section class="slide">
-      <div class="kicker">Executive summary</div>
-      <h2 class="title">数智化建设的关键，不在页面呈现，而在管理规则、数据责任和闭环机制同步固化</h2>
-      <div class="grid-3">
-        <div class="card"><div class="card-title">统一口径</div><div class="card-body">将经营指标、统计口径、填报责任和校核规则前置明确，减少多头统计和重复解释。</div></div>
-        <div class="card"><div class="card-title">源头治理</div><div class="card-body">优先推动业务系统源头采集，逐步压降人工填报，提升数据真实性和可追溯性。</div></div>
-        <div class="card emphasis"><div class="card-title">穿透闭环</div><div class="card-body">从结果展示走向异常识别、原因分析、责任落实和整改跟踪。</div></div>
-      </div>
-      <div class="footer"><span>核心判断</span><span>02</span></div>
-    </section>
+      <section class="slide light" data-layout="T02">
+        <div class="kicker">Executive summary</div>
+        <h2 class="title">数智化建设的关键，不在页面呈现，<br />而在管理规则、数据责任和闭环机制同步固化</h2>
+        <div class="grid-3">
+          <div class="card fill">
+            <div class="card-title">统一口径</div>
+            <p class="card-body">将经营指标、统计口径、填报责任和校核规则前置明确，减少多头统计和重复解释。</p>
+          </div>
+          <div class="card fill">
+            <div class="card-title">源头治理</div>
+            <p class="card-body">优先推动业务系统源头采集，逐步压降人工填报，提升数据真实性和可追溯性。</p>
+          </div>
+          <div class="card accent">
+            <div class="card-title">穿透闭环</div>
+            <p class="card-body">从结果展示走向异常识别、原因分析、责任落实和整改跟踪。</p>
+          </div>
+        </div>
+        <div class="footer"><span>核心判断</span><span>02</span></div>
+      </section>
 
-    <section class="slide">
-      <div class="kicker">Diagnosis</div>
-      <h2 class="title">当前差距主要集中在口径、来源、责任、校核和闭环五个方面</h2>
-      <table class="matrix">
-        <tr><th>问题表现</th><th>深层原因</th><th>改进方向</th></tr>
-        <tr><td>同一指标在不同场景下存在差异</td><td>指标定义、统计周期和责任边界未完全统一</td><td>建立集团统一指标库和口径管理机制</td></tr>
-        <tr><td>手工填报比例较高</td><td>业务系统源头采集不足，数据接口不完整</td><td>优先补强重点业务系统和数据集成</td></tr>
-        <tr><td>异常数据发现较晚</td><td>质量校核和预警规则未充分前置</td><td>建立数据质量规则、异常预警和整改闭环</td></tr>
-      </table>
-      <div class="footer"><span>差距诊断</span><span>03</span></div>
-    </section>
+      <section class="slide wave" data-layout="T03">
+        <div class="kicker">Chapter 01</div>
+        <h2 class="title statement">先统一经营语言，再建设经营看板</h2>
+        <p class="lead">如果指标口径、责任边界和校核规则没有前置固化，系统页面只会放大管理分歧。</p>
+        <div class="footer"><span>章节页</span><span>03</span></div>
+      </section>
 
-    <section class="slide">
-      <div class="kicker">Capability framework</div>
-      <h2 class="title">建议形成管理规则牵引、数据治理支撑、平台能力承载、场景应用落地的能力框架</h2>
-      <div class="architecture">
-        <div class="layer"><div class="layer-name">治理机制</div><div class="layer-desc">指标责任、数据责任、调度机制、整改闭环、考核评价。</div></div>
-        <div class="layer"><div class="layer-name">业务场景</div><div class="layer-desc">月度经营分析、地产销售去化、物业经营分析、新能源运营分析等。</div></div>
-        <div class="layer"><div class="layer-name">数据体系</div><div class="layer-desc">主数据、指标库、数据质量规则、血缘关系、权限管理。</div></div>
-        <div class="layer"><div class="layer-name">平台能力</div><div class="layer-desc">数据集成、模型计算、预警分析、报表服务、移动端触达。</div></div>
-        <div class="layer"><div class="layer-name">安全运维</div><div class="layer-desc">访问控制、日志审计、稳定运行、应急处置、数据安全。</div></div>
-      </div>
-      <div class="footer"><span>能力框架</span><span>04</span></div>
-    </section>
+      <section class="slide light" data-layout="T05">
+        <div class="kicker">Diagnosis</div>
+        <h2 class="title">当前差距主要集中在口径、来源、责任、校核和闭环五个方面</h2>
+        <table class="matrix">
+          <tr><th>问题表现</th><th>深层原因</th><th>改进方向</th></tr>
+          <tr><td>同一指标在不同场景下存在差异</td><td>指标定义、统计周期和责任边界未完全统一</td><td>建立集团统一指标库和口径管理机制</td></tr>
+          <tr><td>手工填报比例较高</td><td>业务系统源头采集不足，数据接口不完整</td><td>优先补强重点业务系统和数据集成</td></tr>
+          <tr><td>异常数据发现较晚</td><td>质量校核和预警规则未充分前置</td><td>建立数据质量规则、异常预警和整改闭环</td></tr>
+        </table>
+        <div class="footer"><span>差距诊断</span><span>04</span></div>
+      </section>
 
-    <section class="slide">
-      <div class="kicker">Roadmap</div>
-      <h2 class="title">按照试点先行、标准固化、全面推广三阶段推进</h2>
-      <div class="timeline">
-        <div class="stage"><div class="stage-title">第一阶段：试点牵引</div><ul><li>选择重点经营场景</li><li>梳理指标口径和数据来源</li><li>形成样板页面和机制样板</li></ul></div>
-        <div class="stage"><div class="stage-title">第二阶段：标准固化</div><ul><li>沉淀指标库和数据规则</li><li>打通关键系统接口</li><li>建立质量校核机制</li></ul></div>
-        <div class="stage"><div class="stage-title">第三阶段：推广优化</div><ul><li>扩展到更多产业板块</li><li>强化预警和穿透分析</li><li>完善闭环督办机制</li></ul></div>
-      </div>
-      <div class="footer"><span>实施路径</span><span>05</span></div>
-    </section>
+      <section class="slide light" data-layout="T06">
+        <div class="kicker">Capability framework</div>
+        <h2 class="title">建议形成管理规则牵引、数据治理支撑、平台能力承载、场景应用落地的能力框架</h2>
+        <div class="architecture">
+          <div class="layer"><div class="layer-name">治理机制</div><div class="layer-desc">指标责任、数据责任、调度机制、整改闭环、考核评价。</div></div>
+          <div class="layer"><div class="layer-name">业务场景</div><div class="layer-desc">月度经营分析、销售去化、运营分析、风险预警等重点场景。</div></div>
+          <div class="layer"><div class="layer-name">数据体系</div><div class="layer-desc">主数据、指标库、数据质量规则、血缘关系、权限管理。</div></div>
+          <div class="layer"><div class="layer-name">平台能力</div><div class="layer-desc">数据集成、模型计算、预警分析、报表服务、移动端触达。</div></div>
+          <div class="layer"><div class="layer-name">安全运维</div><div class="layer-desc">访问控制、日志审计、稳定运行、应急处置、数据安全。</div></div>
+        </div>
+        <div class="footer"><span>能力框架</span><span>05</span></div>
+      </section>
 
-    <section class="slide">
-      <div class="kicker">Diagram examples</div>
-      <h2 class="title">内置图例覆盖能力框架、路线图、雷达、矩阵和数据闭环五类常用页面表达</h2>
-      <div class="diagram-row">
-        <div class="diagram-card"><img src="assets/diagrams/capability-framework.svg" /><div>能力框架图</div></div>
-        <div class="diagram-card"><img src="assets/diagrams/roadmap.svg" /><div>三阶段路线图</div></div>
-        <div class="diagram-card"><img src="assets/diagrams/radar.svg" /><div>能力雷达图</div></div>
-        <div class="diagram-card"><img src="assets/diagrams/matrix.svg" /><div>优先级矩阵图</div></div>
-        <div class="diagram-card"><img src="assets/diagrams/data-loop.svg" /><div>数据闭环图</div></div>
-      </div>
-      <div class="footer"><span>图例</span><span>06</span></div>
-    </section>
+      <section class="slide light" data-layout="T08">
+        <div class="kicker">Roadmap</div>
+        <h2 class="title">按照试点先行、标准固化、全面推广三阶段推进</h2>
+        <div class="timeline">
+          <div class="stage"><div class="stage-title">第一阶段：试点牵引</div><ul><li>选择重点经营场景</li><li>梳理指标口径和数据来源</li><li>形成样板页面和机制样板</li></ul></div>
+          <div class="stage"><div class="stage-title">第二阶段：标准固化</div><ul><li>沉淀指标库和数据规则</li><li>打通关键系统接口</li><li>建立质量校核机制</li></ul></div>
+          <div class="stage"><div class="stage-title">第三阶段：推广优化</div><ul><li>扩展到更多产业板块</li><li>强化预警和穿透分析</li><li>完善闭环督办机制</li></ul></div>
+        </div>
+        <div class="footer"><span>实施路径</span><span>06</span></div>
+      </section>
 
-    <section class="slide dark">
-      <div class="kicker">Closing</div>
-      <div class="quote">工具的价值，取决于它和组织运行方式、管理规则、数据责任之间的匹配程度。</div>
-      <div class="footer"><span>结束页</span><span>07</span></div>
-    </section>
+      <section class="slide mist" data-layout="T13">
+        <div class="kicker">Diagram examples</div>
+        <h2 class="title">结构图、路线图、雷达、矩阵和闭环图优先服务论证链条，而不是填充页面</h2>
+        <div class="diagram-row">
+          <div class="diagram-card"><img src="assets/diagrams/capability-framework.svg" alt="能力框架图" /><div>能力框架图</div></div>
+          <div class="diagram-card"><img src="assets/diagrams/roadmap.svg" alt="三阶段路线图" /><div>三阶段路线图</div></div>
+          <div class="diagram-card"><img src="assets/diagrams/radar.svg" alt="能力雷达图" /><div>能力雷达图</div></div>
+          <div class="diagram-card"><img src="assets/diagrams/matrix.svg" alt="优先级矩阵图" /><div>优先级矩阵图</div></div>
+          <div class="diagram-card"><img src="assets/diagrams/data-loop.svg" alt="数据闭环图" /><div>数据闭环图</div></div>
+        </div>
+        <div class="footer"><span>图例</span><span>07</span></div>
+      </section>
 
+      <section class="slide dark" data-layout="T14">
+        <div class="kicker">Closing</div>
+        <div class="quote">工具的价值，取决于它和组织运行方式、管理规则、数据责任之间的匹配程度。</div>
+        <div class="quote-source">下一步：用重点场景验证规则，用真实数据验证机制。</div>
+        <div class="footer"><span>结束页</span><span>08</span></div>
+      </section>
+
+    </div>
   </main>
+  <nav class="nav" id="nav" aria-label="Slide navigation"></nav>
+  <div class="counter" id="counter"></div>
+
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const nav = document.getElementById("nav");
+      const counter = document.getElementById("counter");
+      let current = Math.max(0, slides.findIndex((slide) => slide.classList.contains("active")));
+      let wheelLock = false;
+      let touchStartX = null;
+
+      function fit() {
+        const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720) * 0.96;
+        document.documentElement.style.setProperty("--deck-scale", String(Math.max(0.1, scale)));
+      }
+
+      function updateNav() {
+        nav.innerHTML = "";
+        slides.forEach((_, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.setAttribute("aria-label", `Go to slide ${index + 1}`);
+          button.className = index === current ? "active" : "";
+          button.addEventListener("click", () => show(index));
+          nav.appendChild(button);
+        });
+      }
+
+      function show(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, slideIndex) => {
+          slide.classList.toggle("active", slideIndex === current);
+        });
+        counter.textContent = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+        updateNav();
+        const layout = slides[current].dataset.layout || `slide-${current + 1}`;
+        history.replaceState(null, "", `#${layout}`);
+      }
+
+      function step(delta) {
+        show(current + delta);
+      }
+
+      window.addEventListener("resize", fit);
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") step(1);
+        if (event.key === "ArrowLeft" || event.key === "PageUp") step(-1);
+        if (event.key === "Home") show(0);
+        if (event.key === "End") show(slides.length - 1);
+      });
+      document.addEventListener("wheel", (event) => {
+        if (wheelLock || Math.abs(event.deltaY) < 18) return;
+        wheelLock = true;
+        step(event.deltaY > 0 ? 1 : -1);
+        window.setTimeout(() => { wheelLock = false; }, 420);
+      }, { passive: true });
+      document.addEventListener("touchstart", (event) => {
+        touchStartX = event.touches[0]?.clientX ?? null;
+      }, { passive: true });
+      document.addEventListener("touchend", (event) => {
+        if (touchStartX === null) return;
+        const endX = event.changedTouches[0]?.clientX ?? touchStartX;
+        const diff = endX - touchStartX;
+        if (Math.abs(diff) > 42) step(diff < 0 ? 1 : -1);
+        touchStartX = null;
+      }, { passive: true });
+
+      fit();
+      show(current);
+    })();
+  </script>
 </body>
 </html>

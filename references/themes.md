@@ -1,65 +1,112 @@
 # Themes
 
-本 Skill 只允许从以下主题中选择一套。一份 deck 只使用一个主强调色。
+Choose exactly one theme for each deck. These palettes use the public Thoughtworks color names and HEX values from the public brand guidelines, but this skill does not ship official assets.
 
-## Theme 1 Consulting Red
+## Core Palette
 
-适合：战略汇报、问题诊断、转型建议、管理机制。
+| Token | Color | HEX | Use |
+|---|---|---|---|
+| talc white | white | `#FFFFFF` | Main paper background |
+| mist gray | light gray | `#EDF1F3` | Soft panel background |
+| onyx black | black | `#000000` | Main text and dark pages |
+| flamingo pink | pink | `#F2617A` | Highlight, CTA, one emphasis phrase |
+| wave blue | deep blue | `#003D4F` | Dark theme, executive pages, quote panels |
+| turmeric yellow | ochre | `#CC850A` | Caution or market signal |
+| jade green | green | `#6B9E78` | Governance, sustainability, controls |
+| sapphire blue | cyan-blue | `#47A1AD` | Data, platform, AI, technology |
+| amethyst purple | purple | `#634F7D` | Product, organization, change themes |
 
-- bg: #ffffff
-- bg-soft: #f7f7f4
-- text: #111111
-- text-muted: #4a4a4a
-- line: #d8d8d2
-- dark: #111111
-- accent: #bd4257
-- accent-2: #00a8a8
+## Theme 1 Wave Executive
 
-## Theme 2 Product Violet
+Default for strategy, executive reporting, enterprise architecture, and transformation decks.
 
-适合：产品战略、敏捷方法、产品组织、创新主题。
+```css
+body.theme-wave {
+  --accent: #003D4F;
+  --accent-contrast: #FFFFFF;
+  --accent-secondary: #F2617A;
+}
+```
 
-- bg: #ffffff
-- bg-soft: #f6f5fb
-- text: #111111
-- text-muted: #4a4a4a
-- line: #dedbe8
-- dark: #111111
-- accent: #6b4eff
-- accent-2: #bd4257
+Use wave blue for dark panels and flamingo pink for a small callout only.
 
-## Theme 3 Digital Cyan
+## Theme 2 Flamingo Decision
 
-适合：数据治理、平台能力、AI 转型、系统架构。
+For sharp decisions, calls to action, change moments, and issue escalation.
 
-- bg: #ffffff
-- bg-soft: #f3f8f8
-- text: #111111
-- text-muted: #4a4a4a
-- line: #d4e3e3
-- dark: #111111
-- accent: #00a8a8
-- accent-2: #bd4257
+```css
+body.theme-flamingo {
+  --accent: #F2617A;
+  --accent-contrast: #000000;
+  --accent-secondary: #003D4F;
+}
+```
 
-## Theme 4 Governance Green
+Do not set normal body text in flamingo pink. It is not suitable for small text.
 
-适合：经营穿透、风险管理、ESG、组织治理、合规审计。
+## Theme 3 Sapphire Platform
 
-- bg: #ffffff
-- bg-soft: #f4f8f4
-- text: #111111
-- text-muted: #4a4a4a
-- line: #d8e4d8
-- dark: #111111
-- accent: #2e7d32
-- accent-2: #bd4257
+For data governance, AI transformation, digital platforms, and operating dashboards.
 
-## 使用规则
+```css
+body.theme-sapphire {
+  --accent: #47A1AD;
+  --accent-contrast: #000000;
+  --accent-secondary: #634F7D;
+}
+```
 
-1. 先根据主题推荐一套。
-2. 用户没有偏好时，默认使用 Consulting Red。
-3. 数据治理、AI、平台能力类主题优先使用 Digital Cyan。
-4. 经营穿透、治理、风险类主题优先使用 Governance Green。
-5. 一份 deck 中 accent 不能频繁变化。
-6. accent-2 只用于图形对比，不用于正文大面积着色。
-7. 确需自定义颜色时，先说明会降低风格一致性。
+Use sapphire for diagram nodes and platform panels; keep text black or white.
+
+## Theme 4 Jade Governance
+
+For governance, risk, controls, ESG, data quality, and operating mechanisms.
+
+```css
+body.theme-jade {
+  --accent: #6B9E78;
+  --accent-contrast: #000000;
+  --accent-secondary: #003D4F;
+}
+```
+
+Use jade for control checkpoints and quality gates.
+
+## Theme 5 Amethyst Product
+
+For product strategy, organization design, culture change, and innovation.
+
+```css
+body.theme-amethyst {
+  --accent: #634F7D;
+  --accent-contrast: #FFFFFF;
+  --accent-secondary: #F2617A;
+}
+```
+
+Use amethyst on dark pages and pair it with black/white typography.
+
+## Theme 6 Turmeric Warning
+
+For risk, timing pressure, market signals, and "why now" pages.
+
+```css
+body.theme-turmeric {
+  --accent: #CC850A;
+  --accent-contrast: #000000;
+  --accent-secondary: #003D4F;
+}
+```
+
+Use turmeric sparingly. It is a signal color, not a full-deck background color.
+
+## Selection Rules
+
+1. If the user does not choose, default to `theme-wave`.
+2. Use `theme-sapphire` for data, AI, platform, and engineering strategy.
+3. Use `theme-jade` for governance, risk, and quality.
+4. Use `theme-amethyst` for product, culture, and organizational change.
+5. Use `theme-flamingo` only when the deck needs strong decision emphasis.
+6. Use `theme-turmeric` only for warning or urgency narratives.
+7. Never mix multiple `body.theme-*` classes in one deck.
+8. Do not accept arbitrary custom HEX values unless the user explicitly prioritizes client-brand adaptation over Thoughtworks-inspired consistency.
