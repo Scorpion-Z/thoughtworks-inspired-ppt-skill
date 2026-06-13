@@ -1,4 +1,4 @@
-# Thoughtworks Inspired PPT Skill
+# Boge PPT Skill
 
 ![Skill](https://img.shields.io/badge/Skill-Agent-111111?style=flat-square)
 ![HTML Deck](https://img.shields.io/badge/HTML-Deck-003D4F?style=flat-square)
@@ -14,10 +14,10 @@
 推荐安装方式：
 
 ```bash
-npx skills add https://github.com/Scorpion-Z/thoughtworks-inspired-ppt-skill --skill thoughtworks-inspired-ppt-skill
+npx skills add https://github.com/Scorpion-Z/thoughtworks-inspired-ppt-skill --skill boge-ppt-skill
 ```
 
-如果你的环境没有 `skills` 命令，或希望精确安装到当前 Codex 项目目录，使用：
+如果你的环境没有 `skills` 命令，或希望安装到默认 Codex home skill 目录，使用：
 
 ```bash
 npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill
@@ -26,13 +26,13 @@ npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill
 默认安装到：
 
 ```text
-.codex/skills/thoughtworks-inspired-ppt-skill
+~/.codex/skills/boge-ppt-skill
 ```
 
 安装后在 Codex 中输入：
 
 ```text
-请读取 .codex/skills/thoughtworks-inspired-ppt-skill/SKILL.md，并按该规范生成 Thoughtworks-inspired 风格 HTML PPT。
+请读取 ~/.codex/skills/boge-ppt-skill/SKILL.md，并按该规范生成 Boge 咨询型 HTML PPT。
 ```
 
 ## 常用命令
@@ -40,12 +40,15 @@ npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill
 ```bash
 npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill
 npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill global
-npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill install .codex/skills/thoughtworks-inspired-ppt-skill
+npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill install .codex/skills/boge-ppt-skill
 npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill init my-deck --demo
 node ./bin/thoughtworks-ppt-skill.js doctor
 node ./scripts/validate-thoughtworks-deck.mjs ./templates/index.html
 npm run check
+npm run visual:template
 npm run visual:demo
+npm run visual:suite
+npm run visual:gallery
 ```
 
 ## 适合场景
@@ -67,7 +70,28 @@ npm run visual:demo
 - 一份 deck 只使用一个主强调色。
 - 使用登记版式 T01-T14，不临场发明页面结构。
 - 图形服务逻辑，优先使用结构图、信息图、矩阵、路线图、雷达和闭环图。
+- 支持克制的标记式动效：`data-animate` 用在 slide，`data-anim` 用在内容元素。
+- 本地内置 Motion One vendor，断网时仍可运行动效；不支持时自动回退到 Web Animations API。
+- 轻量 WebGL 氛围背景只在封面、章节、深色、强调和总结页启用，普通内容页保持干净可读。
+- 支持 `B` 键低功耗/静态模式，并遵循 `prefers-reduced-motion`。
+- 每个 HTML deck 右下角保留简洁控制提示：`←/→ 翻页 · 滚轮/滑动 · B 静态`，按 `B` 后切换为 `B 动态`。
 - 交付前按顺序执行静态校验、视觉检查和浏览器抽查。
+
+## 模板套图页数
+
+默认模板套图建议使用 **9 页**，适合一份标准咨询/转型汇报的完整叙事：
+
+```text
+封面页 -> 核心判断 -> 差距诊断 -> 能力框架 -> 路线图 -> 优先级矩阵 -> 闭环机制 -> 关键指标 -> 总结页
+```
+
+对应版式为：
+
+```text
+T01 -> T02 -> T05 -> T06 -> T08 -> T09 -> T11 -> T04 -> T14
+```
+
+`examples/template-suite/` 是真实可翻页的 9 页模板套图。`examples/template-gallery/` 是类似九宫格的模板预览页。`examples/full-layout-demo/` 仍保留为 T01-T14 完整版式库，定位是参考手册，不是默认生成页数。
 
 ## 使用流程
 
@@ -79,13 +103,28 @@ npm run visual:demo
 6. 填充内容：标题结论化，正文短句化，图形结构化。
 7. 可选配图：按 `references/image-prompts.md` 生成、裁切或安放图片。
 8. 静态校验：运行 `node scripts/validate-thoughtworks-deck.mjs index.html`。
-9. 视觉检查：运行 `node scripts/visual-check-deck.mjs index.html`，检查截图和报告。
-10. 浏览器抽查：检查字号、留白、对齐、页脚安全区和横向导航。
+9. 视觉检查：运行 `node scripts/visual-check-deck.mjs index.html`，检查截图、动效最终态、低功耗模式、移动/平板缩放和报告。
+10. 浏览器抽查：检查字号、留白、对齐、页脚安全区、横向导航、右下角控制提示和 `B` 低功耗切换。
+
+## 动效接口
+
+动效只用于建立阅读顺序，不用于装饰背景。旧 deck 不加标记也能保持静态可读。
+
+```html
+<section class="slide light" data-layout="T02" data-animate="cascade">
+  <div class="kicker" data-anim="up">Executive summary</div>
+  <h2 class="title" data-anim="up">核心结论写在标题里</h2>
+  <div class="card fill" data-anim="card">...</div>
+</section>
+```
+
+允许的 `data-animate`：`hero`、`cascade`、`directional`、`loop`、`quote`、`timeline`、`matrix-scan`、`loop-trace`、`spotlight`。
+允许的 `data-anim`：`up`、`left`、`right`、`line`、`card`、`row`、`node`。
 
 ## 目录结构
 
 ```text
-thoughtworks-inspired-ppt-skill/
+boge-ppt-skill/
 ├── SKILL.md
 ├── README.md
 ├── package.json
@@ -96,10 +135,12 @@ thoughtworks-inspired-ppt-skill/
 ├── styles/
 │   └── thoughtworks-inspired.css
 ├── scripts/
+│   ├── boge-deck-runtime.js
 │   ├── validate-thoughtworks-deck.mjs
 │   └── visual-check-deck.mjs
 ├── assets/
-│   └── diagrams/
+│   ├── diagrams/
+│   └── vendor/
 ├── references/
 │   ├── style-lock.md
 │   ├── themes.md
@@ -110,17 +151,19 @@ thoughtworks-inspired-ppt-skill/
 │   ├── image-guide.md
 │   └── checklist.md
 └── examples/
-    └── full-layout-demo/
+    ├── full-layout-demo/
+    ├── template-suite/
+    └── template-gallery/
 ```
 
 ## 示例请求
 
 ```text
-请使用 thoughtworks-inspired-ppt-skill，把这份材料整理成 8 页左右的 HTML PPT，风格强结构、结论先行、50/50 版式、适合央企内部汇报。
+请使用 boge-ppt-skill，把这份材料整理成 8 页左右的 HTML PPT，风格强结构、结论先行、50/50 版式、适合央企内部汇报。
 ```
 
 ```text
-请按 thoughtworks-inspired-ppt-skill 的规范，生成一份技术战略汇报 HTML PPT，包含技术雷达、能力框架和三阶段路线图。
+请按 boge-ppt-skill 的规范，生成一份技术战略汇报 HTML PPT，包含技术雷达、能力框架和三阶段路线图。
 ```
 
 ## 本地开发
@@ -130,6 +173,8 @@ npm install
 npm run check
 npm run visual:template
 npm run visual:demo
+npm run visual:suite
+npm run visual:gallery
 npm run demo
 node ./scripts/validate-thoughtworks-deck.mjs ./demo-deck/index.html
 node ./scripts/visual-check-deck.mjs ./demo-deck/index.html

@@ -1,9 +1,10 @@
 {
-  "name": "thoughtworks-inspired-ppt-skill",
+  "name": "boge-ppt-skill",
   "version": "0.3.0",
-  "description": "Thoughtworks-inspired HTML PPT skill for Codex and agent skill workflows.",
+  "description": "Boge HTML PPT skill for high-impact consulting and transformation decks.",
   "type": "module",
   "bin": {
+    "boge-ppt-skill": "./bin/thoughtworks-ppt-skill.js",
     "thoughtworks-inspired-ppt-skill": "./bin/thoughtworks-ppt-skill.js",
     "thoughtworks-ppt-skill": "./bin/thoughtworks-ppt-skill.js"
   },
@@ -12,11 +13,15 @@
     "install:global-skill": "node ./bin/thoughtworks-ppt-skill.js global",
     "demo": "node ./bin/thoughtworks-ppt-skill.js init ./demo-deck --demo",
     "build:example": "node ./bin/thoughtworks-ppt-skill.js init ./example-output --demo",
-    "check": "node ./bin/thoughtworks-ppt-skill.js doctor && node ./scripts/validate-thoughtworks-deck.mjs ./templates/index.html --allow-template-placeholders && node ./scripts/validate-thoughtworks-deck.mjs ./examples/full-layout-demo/index.html",
+    "check": "node ./bin/thoughtworks-ppt-skill.js doctor && node ./scripts/validate-thoughtworks-deck.mjs ./templates/index.html --allow-template-placeholders && node ./scripts/validate-thoughtworks-deck.mjs ./examples/full-layout-demo/index.html && node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-suite/index.html && node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-gallery/index.html",
     "validate:template": "node ./scripts/validate-thoughtworks-deck.mjs ./templates/index.html --allow-template-placeholders",
     "validate:demo": "node ./scripts/validate-thoughtworks-deck.mjs ./examples/full-layout-demo/index.html",
+    "validate:suite": "node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-suite/index.html",
+    "validate:gallery": "node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-gallery/index.html",
     "visual:template": "node ./scripts/visual-check-deck.mjs ./templates/index.html",
-    "visual:demo": "node ./scripts/visual-check-deck.mjs ./examples/full-layout-demo/index.html"
+    "visual:demo": "node ./scripts/visual-check-deck.mjs ./examples/full-layout-demo/index.html",
+    "visual:suite": "node ./scripts/visual-check-deck.mjs ./examples/template-suite/index.html",
+    "visual:gallery": "node ./scripts/visual-check-deck.mjs ./examples/template-gallery/index.html"
   },
   "keywords": [
     "ppt",
@@ -24,6 +29,7 @@
     "html",
     "codex-skill",
     "agent-skill",
+    "boge-ppt-skill",
     "thoughtworks-inspired",
     "deck",
     "digital-transformation"

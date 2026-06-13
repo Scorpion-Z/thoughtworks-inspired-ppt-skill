@@ -34,6 +34,12 @@ Short executive deck:
 T01 -> T02 -> T05 -> T06 -> T08 -> T14
 ```
 
+Default 9-page template suite:
+
+```text
+T01 -> T02 -> T05 -> T06 -> T08 -> T09 -> T11 -> T04 -> T14
+```
+
 Standard transformation deck:
 
 ```text

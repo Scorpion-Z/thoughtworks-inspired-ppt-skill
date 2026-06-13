@@ -15,6 +15,8 @@ const errors = [];
 const warnings = [];
 
 const allowedLayouts = new Set(Array.from({ length: 14 }, (_, i) => `T${String(i + 1).padStart(2, '0')}`));
+const allowedAnimateRecipes = new Set(['cascade', 'hero', 'quote', 'directional', 'loop', 'timeline', 'matrix-scan', 'loop-trace', 'spotlight']);
+const allowedAnimTokens = new Set(['', 'up', 'left', 'right', 'line', 'card', 'row', 'node']);
 const slideRe = /<section\b[^>]*class="[^"]*\bslide\b[^"]*"[^>]*>[\s\S]*?<\/section>/g;
 const slides = [...htmlWithoutComments.matchAll(slideRe)].map((match, index) => ({
   index: index + 1,
@@ -36,6 +38,7 @@ const weakTitleRe = /^(背景介绍|项目背景|工作安排|目录|现状介�
 
 const layoutCounts = new Map();
 const themeClasses = [];
+const templateSuiteSequence = ['T01', 'T02', 'T05', 'T06', 'T08', 'T09', 'T11', 'T04', 'T14'];
 
 function attr(tag, name) {
   return tag.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1] ?? '';
@@ -69,8 +72,21 @@ if (bodyThemes.length !== 1) {
   errors.push(`Body must include exactly one theme-* class; found ${bodyThemes.length}.`);
 }
 
+if (!/\bclass="[^"]*\bcontrol-help\b/i.test(htmlWithoutComments)) {
+  errors.push('Deck must include .control-help for keyboard, swipe, and B static/dynamic guidance.');
+}
+
+if (!/\bclass="[^"]*\bambient-canvas\b/i.test(htmlWithoutComments)) {
+  errors.push('Deck must include .ambient-canvas for the shared Boge ambience runtime.');
+}
+
+if (!/boge-deck-runtime\.js/.test(htmlWithoutComments)) {
+  errors.push('Deck must load scripts/boge-deck-runtime.js instead of duplicating inline runtime code.');
+}
+
 slides.forEach((slide) => {
   const layout = slide.tag.match(/\bdata-layout="([^"]+)"/)?.[1];
+  const recipe = slide.tag.match(/\bdata-animate="([^"]+)"/)?.[1];
   const className = slide.tag.match(/\bclass="([^"]+)"/)?.[1] ?? '';
   const slideText = visibleText(slide.html);
 
@@ -87,6 +103,30 @@ slides.forEach((slide) => {
   } else {
     themeClasses.push(className.match(/\b(light|mist|dark|wave|accent|split)\b/)?.[1]);
   }
+
+  if (recipe && !allowedAnimateRecipes.has(recipe)) {
+    errors.push(`Slide ${slide.index}: data-animate="${recipe}" is not registered. Allowed recipes are cascade, hero, quote, directional, loop, timeline, matrix-scan, loop-trace, spotlight.`);
+  }
+
+  if (layout === 'T08') {
+    if (!/\bcontent-center\b/.test(className)) {
+      errors.push(`Slide ${slide.index}: T08 roadmap must use .content-center so the body sits visually between title and footer safe areas.`);
+    }
+    if (!/\bdata-animate="timeline"/.test(slide.tag)) {
+      errors.push(`Slide ${slide.index}: T08 roadmap must use data-animate="timeline".`);
+    }
+    if (!/\bclass="[^"]*\broadmap-track\b/i.test(slide.html)) {
+      errors.push(`Slide ${slide.index}: T08 roadmap must use .roadmap-track instead of the legacy .timeline-only structure.`);
+    }
+  }
+
+  const animTags = [...slide.html.matchAll(/<[^>]+\bdata-anim(?:="([^"]*)")?[^>]*>/gi)];
+  animTags.forEach((match, animIndex) => {
+    const token = match[1] ?? '';
+    if (!allowedAnimTokens.has(token)) {
+      errors.push(`Slide ${slide.index}: data-anim token ${animIndex + 1}="${token}" is not registered. Allowed tokens are up, left, right, line, card, row, node.`);
+    }
+  });
 
   if (!/<h[12]\b[^>]*class="[^"]*\btitle\b/i.test(slide.html) && !/\bquote\b/.test(slide.html)) {
     errors.push(`Slide ${slide.index}: missing a title or quote block that carries the page's core message.`);
@@ -125,7 +165,7 @@ slides.forEach((slide) => {
   }
 
   if (badEffectRe.test(slide.html)) {
-    errors.push(`Slide ${slide.index}: inline shadow or rounded corner detected. Use flat rectangular Thoughtworks-inspired blocks.`);
+    errors.push(`Slide ${slide.index}: inline shadow or rounded corner detected. Use flat rectangular Boge PPT blocks.`);
   }
 
   const accentCardCount = (slide.html.match(/class="[^"]*\bcard\b[^"]*\baccent\b[^"]*"/g) ?? []).length;
@@ -171,8 +211,11 @@ if (activeSlideCount !== 1) {
 if (slides.length >= 8) {
   const hasDark = themeClasses.some((theme) => theme === 'dark' || theme === 'wave' || theme === 'accent' || theme === 'split');
   const hasSection = slides.some((slide) => slide.tag.includes('data-layout="T03"'));
+  const layoutSequence = slides.map((slide) => slide.tag.match(/\bdata-layout="([^"]+)"/)?.[1] ?? '');
+  const isDefaultTemplateSuite = layoutSequence.length === templateSuiteSequence.length
+    && layoutSequence.every((layout, index) => layout === templateSuiteSequence[index]);
   if (!hasDark) warnings.push('Deck has 8+ slides but no dark/wave/accent breathing page.');
-  if (!hasSection) warnings.push('Deck has 8+ slides but no T03 section divider.');
+  if (!hasSection && !isDefaultTemplateSuite) warnings.push('Deck has 8+ slides but no T03 section divider.');
 }
 
 let repeatRun = 1;
@@ -196,9 +239,9 @@ if (warnings.length) {
 }
 
 if (errors.length) {
-  console.error('Thoughtworks-inspired deck validation failed:');
+  console.error('Boge PPT deck validation failed:');
   errors.forEach((error) => console.error(`- ${error}`));
   process.exit(1);
 }
 
-console.log(`Thoughtworks-inspired deck validation passed: ${slides.length} slide(s).`);
+console.log(`Boge PPT deck validation passed: ${slides.length} slide(s).`);
