@@ -3,112 +3,186 @@
 ![Skill](https://img.shields.io/badge/Skill-Agent-111111?style=flat-square)
 ![HTML Deck](https://img.shields.io/badge/HTML-Deck-003D4F?style=flat-square)
 ![Codex](https://img.shields.io/badge/Codex-Supported-222222?style=flat-square)
+![Motion](https://img.shields.io/badge/Motion-Offline-634F7D?style=flat-square)
 ![License](https://img.shields.io/github/license/Scorpion-Z/thoughtworks-inspired-ppt-skill?style=flat-square)
 
-一个适配 Codex、Claude Code、Cursor 等 Agent 环境的 HTML PPT Skill，用于生成受 Thoughtworks 公开设计语言启发的网页演示文稿、结构图、路线图、能力框架图、技术雷达和管理汇报封面。
+**Boge PPT Skill** is an agent-ready HTML presentation system for building polished consulting decks, transformation reports, strategy narratives, capability maps, roadmaps, and executive briefings.
 
-> 本项目不是 Thoughtworks 官方模板，不包含 Thoughtworks 官方 logo、官方模板、官方字体文件、官方插画、官网截图或专有资产，也不暗示官方授权。它只提供一种受公开设计语言启发的演示文稿方法和模板。
+It gives AI coding agents a strict design system, reusable slide layouts, validation scripts, and a browser-based runtime so generated decks are not just "valid HTML", but presentable, inspectable, and safer to deliver.
 
-## 30 秒开始
+> This is an unofficial, user-maintained project. It is inspired by public Thoughtworks design language, but it does not include Thoughtworks official logos, official templates, official font files, official illustrations, website screenshots, brand-pack assets, or any official authorization.
 
-推荐安装方式：
+## Why This Exists
+
+Most agent-generated PPT-style HTML has the same problems:
+
+- pages look disconnected from each other;
+- titles describe topics instead of making decisions;
+- diagrams are decorative rather than explanatory;
+- navigation and animation break during live presentation;
+- visual quality depends too much on one-off prompting.
+
+Boge PPT Skill turns those concerns into reusable constraints:
+
+- registered layouts from `T01` to `T14`;
+- a default 9-page consulting narrative;
+- controlled typography, color, spacing, and footer rules;
+- optional but restrained motion recipes;
+- static validation and Playwright visual regression checks;
+- presentation chrome for navigation, page progress, counters, and low-power mode.
+
+## Highlights
+
+- **Agent-first workflow**: designed for Codex, Claude Code, Cursor, and similar coding agents.
+- **Browser-native deck**: outputs a self-contained HTML presentation directory.
+- **Consulting-grade structure**: conclusion-first writing, evidence-led layouts, matrices, roadmaps, loops, and executive summaries.
+- **Reusable template suite**: a production 9-page deck plus a full `T01`-`T14` layout library.
+- **Motion with fallback**: local Motion One vendor first, Web Animations API fallback when unavailable.
+- **Low-power mode**: press `B` to disable motion and WebGL ambience during presentation.
+- **Visual safety net**: screenshot-based checks catch blank pages, hidden animation states, footer overlap, mobile/tablet preview issues, and control overlap.
+- **No official asset leakage**: no official Thoughtworks logo, oblique, screenshots, templates, or brand-pack files.
+
+## Quick Start
+
+Install as a Codex skill:
 
 ```bash
 npx skills add https://github.com/Scorpion-Z/thoughtworks-inspired-ppt-skill --skill boge-ppt-skill
 ```
 
-如果你的环境没有 `skills` 命令，或希望安装到默认 Codex home skill 目录，使用：
+If your environment does not provide the `skills` command, install through the package entrypoint:
 
 ```bash
 npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill
 ```
 
-默认安装到：
+By default, the skill is installed to:
 
 ```text
 ~/.codex/skills/boge-ppt-skill
 ```
 
-安装后在 Codex 中输入：
+Then ask your agent:
 
 ```text
-请读取 ~/.codex/skills/boge-ppt-skill/SKILL.md，并按该规范生成 Boge 咨询型 HTML PPT。
+请读取 ~/.codex/skills/boge-ppt-skill/SKILL.md，并按该规范生成一份咨询型 HTML PPT。
 ```
 
-## 常用命令
+## Create A Demo Deck
+
+Clone the repository or use the GitHub package entrypoint:
 
 ```bash
-npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill
-npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill global
-npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill install .codex/skills/boge-ppt-skill
 npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill init my-deck --demo
-node ./bin/thoughtworks-ppt-skill.js doctor
-node ./scripts/validate-thoughtworks-deck.mjs ./templates/index.html
+```
+
+Or from a local checkout:
+
+```bash
+npm install
+npm run demo
+```
+
+The generated deck is a browser presentation:
+
+```text
+my-deck/
+├── index.html
+├── styles/
+├── scripts/
+├── assets/
+└── images/
+```
+
+Open `index.html` in a browser, or run a local static server for stricter browser testing.
+
+## Command Reference
+
+```bash
+# Install to the default local Codex skill directory
+npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill
+
+# Install globally when supported by your environment
+npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill global
+
+# Install to a custom skill directory
+npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill install .codex/skills/boge-ppt-skill
+
+# Generate a demo deck
+npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill init my-deck --demo
+
+# Validate the package
 npm run check
+
+# Run visual regression checks
 npm run visual:template
 npm run visual:demo
 npm run visual:suite
 npm run visual:gallery
 ```
 
-## 适合场景
+## Template System
 
-| 任务 | 推荐方式 |
-|------|----------|
-| 数智化转型汇报 | T01/T02/T03/T05/T06/T08/T14 |
-| 数据治理研究 | T05/T06/T09/T11/T13 |
-| 企业架构规划 | T06/T07/T08/T13 |
-| 经营穿透专题 | T02/T05/T06/T08/T11 |
-| 技术战略汇报 | T03/T04/T10/T13/T08 |
-| 央企内部管理汇报 | 客观、中性、克制表达，减少装饰 |
-
-## 设计基线
-
-- 50/50 画布方法：表达性视觉区域 + 干净文本区域。
-- 大标题结论先行，每页一个核心判断。
-- 使用公开色板命名：talc white、mist gray、onyx black、wave blue、flamingo pink、sapphire、jade、amethyst、turmeric。
-- 一份 deck 只使用一个主强调色。
-- 使用登记版式 T01-T14，不临场发明页面结构。
-- 图形服务逻辑，优先使用结构图、信息图、矩阵、路线图、雷达和闭环图。
-- 支持克制的标记式动效：`data-animate` 用在 slide，`data-anim` 用在内容元素。
-- 本地内置 Motion One vendor，断网时仍可运行动效；不支持时自动回退到 Web Animations API。
-- 轻量 WebGL 氛围背景只在封面、章节、深色、强调和总结页启用，普通内容页保持干净可读。
-- 支持 `B` 键低功耗/静态模式，并遵循 `prefers-reduced-motion`。
-- 每个 HTML deck 右下角保留简洁控制提示：`←/→ 翻页 · 滚轮/滑动 · B 静态`，按 `B` 后切换为 `B 动态`。
-- 交付前按顺序执行静态校验、视觉检查和浏览器抽查。
-
-## 模板套图页数
-
-默认模板套图建议使用 **9 页**，适合一份标准咨询/转型汇报的完整叙事：
+The default reusable deck is **9 pages**. It is long enough for a complete consulting or transformation storyline, but short enough to avoid becoming a layout catalog.
 
 ```text
-封面页 -> 核心判断 -> 差距诊断 -> 能力框架 -> 路线图 -> 优先级矩阵 -> 闭环机制 -> 关键指标 -> 总结页
+01 Cover
+02 Executive summary
+03 Diagnosis
+04 Capability framework
+05 Roadmap
+06 Priority matrix
+07 Closed loop
+08 Key insight
+09 Closing
 ```
 
-对应版式为：
+Layout sequence:
 
 ```text
 T01 -> T02 -> T05 -> T06 -> T08 -> T09 -> T11 -> T04 -> T14
 ```
 
-`examples/template-suite/` 是真实可翻页的 9 页模板套图。`examples/template-gallery/` 是类似九宫格的模板预览页。`examples/full-layout-demo/` 仍保留为 T01-T14 完整版式库，定位是参考手册，不是默认生成页数。
+The repository includes three example surfaces:
 
-## 使用流程
+| Example | Purpose |
+|---|---|
+| `examples/template-suite/` | A real 9-page consulting deck template |
+| `examples/template-gallery/` | A gallery-style preview of the 9-page suite |
+| `examples/full-layout-demo/` | The complete `T01`-`T14` layout library |
 
-1. 需求澄清：受众、场景、页数、素材、配图、主题色、硬约束。
-2. 读取规范：`style-lock.md`、`themes.md`、`layout-lock.md`、`layouts.md`、`components.md`、`checklist.md`。
-3. 规划节奏：先写页面节奏表，再写 HTML。
-4. 拷贝模板：使用 `templates/index.html`。
-5. 挑选版式：从 `references/layouts.md` 中选 T01 到 T14。
-6. 填充内容：标题结论化，正文短句化，图形结构化。
-7. 可选配图：按 `references/image-prompts.md` 生成、裁切或安放图片。
-8. 静态校验：运行 `node scripts/validate-thoughtworks-deck.mjs index.html`。
-9. 视觉检查：运行 `node scripts/visual-check-deck.mjs index.html`，检查截图、动效最终态、低功耗模式、移动/平板缩放和报告。
-10. 浏览器抽查：检查字号、留白、对齐、页脚安全区、横向导航、右下角控制提示和 `B` 低功耗切换。
+## Layout Library
 
-## 动效接口
+| ID | Layout | Best for |
+|---|---|---|
+| `T01` | 50/50 Cover | Opening claims, executive report covers |
+| `T02` | Executive Summary | 3-4 decisions, findings, or recommendations |
+| `T03` | Section Divider | Chapter breaks and narrative pivots |
+| `T04` | Insight Statement | One sharp assertion with proof notes |
+| `T05` | Diagnosis Matrix | Symptoms, causes, and actions |
+| `T06` | Capability Framework | Operating models, governance stacks, architecture layers |
+| `T07` | Before / After | Current-to-target transitions |
+| `T08` | Roadmap | Three-stage implementation paths |
+| `T09` | Priority Matrix | Value/readiness or impact/difficulty decisions |
+| `T10` | Radar | Maturity, technology choices, capability coverage |
+| `T11` | Closed Loop | Data loops, governance loops, remediation loops |
+| `T12` | Evidence Photo / Quote | Case proof, screenshots, or field evidence |
+| `T13` | Diagram Gallery | Reusable diagram sets and visual comparisons |
+| `T14` | Closing | Final statement and next actions |
 
-动效只用于建立阅读顺序，不用于装饰背景。旧 deck 不加标记也能保持静态可读。
+## Design Principles
+
+1. **One slide, one message.** Titles should state conclusions, not topics.
+2. **Structure before decoration.** Use grids, matrices, diagrams, and evidence blocks before adding visual effects.
+3. **One accent per deck.** Keep color purposeful and restrained.
+4. **Readable by default.** Body text should stay legible in presentation mode.
+5. **Motion clarifies order.** Animation is allowed only when it improves reading sequence.
+6. **Presenter controls stay outside the slide.** Page rail, counter, and keyboard hint are presentation chrome, not slide content.
+7. **No official assets.** The project stays inside an unofficial, public-design-language boundary.
+
+## Motion And Interaction
+
+Slides may opt into motion through declarative markers:
 
 ```html
 <section class="slide light" data-layout="T02" data-animate="cascade">
@@ -118,10 +192,60 @@ T01 -> T02 -> T05 -> T06 -> T08 -> T09 -> T11 -> T04 -> T14
 </section>
 ```
 
-允许的 `data-animate`：`hero`、`cascade`、`directional`、`loop`、`quote`、`timeline`、`matrix-scan`、`loop-trace`、`spotlight`。
-允许的 `data-anim`：`up`、`left`、`right`、`line`、`card`、`row`、`node`。
+Registered `data-animate` recipes:
 
-## 目录结构
+```text
+hero, cascade, directional, loop, quote, timeline, matrix-scan, loop-trace, spotlight
+```
+
+Registered `data-anim` tokens:
+
+```text
+up, left, right, line, card, row, node
+```
+
+Runtime controls:
+
+| Control | Behavior |
+|---|---|
+| `←` / `→` | Previous / next slide |
+| Wheel | Slide navigation |
+| Touch swipe | Slide navigation |
+| `B` | Toggle dynamic/static low-power mode |
+
+The control hint, page rail, and counter are rendered as lower presentation chrome outside the scaled slide canvas, so they do not cover the deck content during Chrome or browser preview.
+
+## Quality Gates
+
+Run checks before publishing or presenting a deck:
+
+```bash
+node scripts/validate-thoughtworks-deck.mjs index.html
+node scripts/visual-check-deck.mjs index.html
+```
+
+Package-level checks:
+
+```bash
+npm run check
+npm run visual:template
+npm run visual:demo
+npm run visual:suite
+npm run visual:gallery
+```
+
+The visual checker uses Playwright to validate:
+
+- exactly one active slide;
+- visible text and non-blank pages;
+- footer, counter, navigation, and control safety;
+- animation final states;
+- `B` low-power mode;
+- WebGL ambience shutdown in low-power mode;
+- mobile and tablet preview smoke checks;
+- Chrome-like desktop viewport overlap checks.
+
+## Repository Structure
 
 ```text
 boge-ppt-skill/
@@ -156,17 +280,24 @@ boge-ppt-skill/
     └── template-gallery/
 ```
 
-## 示例请求
+## Example Prompts
 
 ```text
-请使用 boge-ppt-skill，把这份材料整理成 8 页左右的 HTML PPT，风格强结构、结论先行、50/50 版式、适合央企内部汇报。
+请使用 boge-ppt-skill，把这份材料整理成 8 页左右的 HTML PPT。
+要求：结论先行、强结构、适合央企内部管理汇报、包含诊断矩阵和三阶段路线图。
 ```
 
 ```text
-请按 boge-ppt-skill 的规范，生成一份技术战略汇报 HTML PPT，包含技术雷达、能力框架和三阶段路线图。
+请按 boge-ppt-skill 规范生成一份技术战略汇报 HTML PPT。
+需要包含技术雷达、能力框架、优先级矩阵和最终行动建议。
 ```
 
-## 本地开发
+```text
+请把这份数据治理材料改造成 9 页模板套图。
+要求：使用 theme-wave，不使用官方 logo、官网截图或任何品牌包资产。
+```
+
+## Development
 
 ```bash
 npm install
@@ -175,19 +306,42 @@ npm run visual:template
 npm run visual:demo
 npm run visual:suite
 npm run visual:gallery
+```
+
+Generate and validate a demo:
+
+```bash
 npm run demo
 node ./scripts/validate-thoughtworks-deck.mjs ./demo-deck/index.html
 node ./scripts/visual-check-deck.mjs ./demo-deck/index.html
 ```
 
-## 固定版本运行
+## Version Pinning
 
-先在仓库打 tag，例如 `v0.3.0`，之后可使用：
+Use a Git tag when you need reproducible installs:
 
 ```bash
 npx github:Scorpion-Z/thoughtworks-inspired-ppt-skill#v0.3.0
 ```
 
-## 建议仓库 Topics
+## Compatibility
 
-`ppt` `presentation` `html` `deck` `codex` `skill` `agent-skill` `digital-transformation` `thoughtworks-inspired`
+The package is named `boge-ppt-skill`, but legacy CLI aliases are still available:
+
+```text
+boge-ppt-skill
+thoughtworks-inspired-ppt-skill
+thoughtworks-ppt-skill
+```
+
+The GitHub repository name remains `thoughtworks-inspired-ppt-skill` for continuity.
+
+## Suggested Topics
+
+```text
+ppt, presentation, html, deck, codex, skill, agent-skill, consulting, digital-transformation, thoughtworks-inspired
+```
+
+## License
+
+MIT
