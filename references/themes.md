@@ -109,4 +109,4 @@ Use turmeric sparingly. It is a signal color, not a full-deck background color.
 5. Use `theme-flamingo` only when the deck needs strong decision emphasis.
 6. Use `theme-turmeric` only for warning or urgency narratives.
 7. Never mix multiple `body.theme-*` classes in one deck.
-8. Do not accept arbitrary custom HEX values unless the user explicitly prioritizes client-brand adaptation over Thoughtworks-inspired consistency.
+8. Do not accept arbitrary custom HEX values unless the user explicitly prioritizes client-brand adaptation over the Boge PPT / Thoughtworks-inspired design boundary.

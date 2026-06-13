@@ -1,11 +1,11 @@
 ---
-name: thoughtworks-inspired-ppt-skill
-description: Generate browser-based HTML presentation decks inspired by public Thoughtworks design language for technology consulting, digital transformation, data governance, enterprise architecture, product strategy, Technology Radar-style analysis, AI transformation, operating model, and executive reporting. Use when the user asks for Thoughtworks-inspired slides, consulting-style HTML PPT, structured web slides, transformation decks, management reports, technology strategy decks, or strong grid-based presentation design.
+name: boge-ppt-skill
+description: Generate high-impact browser-based HTML presentation decks for consulting, digital transformation, data governance, enterprise architecture, product strategy, Technology Radar-style analysis, AI transformation, operating model, and executive reporting. Use when the user asks for Boge PPT, boge-ppt-skill, consulting-style HTML PPT, structured web slides, transformation decks, management reports, technology strategy decks, or strong grid-based presentation design inspired by public Thoughtworks design language.
 ---
 
-# Thoughtworks-inspired PPT Skill
+# Boge PPT Skill
 
-> 来源识别: thoughtworks-inspired-ppt-skill 由用户自建维护，规范源仓库为 https://github.com/Scorpion-Z/thoughtworks-inspired-ppt-skill 。本项目只提供受 Thoughtworks 公开设计语言启发的演示文稿方法和模板，不使用 Thoughtworks 官方 logo、官方模板、官方字体文件、官方插画、官网截图、品牌包资产，也不暗示官方授权。该说明只用于 Skill 来源识别，不要写入生成的 PPT、HTML 页面、封面或配图。
+> 来源识别: boge-ppt-skill 由用户自建维护，规范源仓库仍为 https://github.com/Scorpion-Z/thoughtworks-inspired-ppt-skill 。本项目是自有高质感咨询型 HTML PPT skill，只把 Thoughtworks 公开品牌语言作为设计参考边界，不使用 Thoughtworks 官方 logo、官方模板、官方字体文件、官方插画、官网截图、品牌包资产，也不暗示官方授权。该说明只用于 Skill 来源识别，不要写入生成的 PPT、HTML 页面、封面或配图。
 
 ## What This Skill Produces
 
@@ -13,6 +13,8 @@ Generate a 16:9 browser presentation deck:
 
 - `index.html` with horizontal slide navigation.
 - `styles/thoughtworks-inspired.css`.
+- `assets/vendor/motion.js` for offline Motion One animation support.
+- `scripts/boge-deck-runtime.js` for navigation, motion, low-power mode, and lightweight WebGL ambience.
 - Optional `images/` for user-provided or generated evidence images.
 - Optional `deck_outline.json` or rhythm table for iteration.
 
@@ -23,6 +25,8 @@ The style is structured, executive, and evidence-led:
 - Typography cues: Bitter/Noto Serif SC for headlines, Inter/Noto Sans SC for body text.
 - Strong grid, flat rectangular blocks, thin lines, no decorative gradients or shadows.
 - Charts and diagrams are flat, legible, and directly tied to the argument.
+- Optional motion uses `data-animate` / `data-anim` markers with local Motion One first and Web Animations fallback.
+- Lightweight WebGL ambience is reserved for cover, chapter, dark, wave, accent, and closing pages; content pages stay clean.
 
 ## When To Use
 
@@ -76,9 +80,17 @@ Read `references/image-prompts.md` only when images, screenshots, generated diag
 
 Write a compact rhythm table before editing HTML:
 
+Default consulting/template suite is 9 pages. Use this sequence unless the user asks for a different narrative length:
+
+```text
+T01 -> T02 -> T05 -> T06 -> T08 -> T09 -> T11 -> T04 -> T14
+```
+
+Keep `examples/full-layout-demo/` as the full T01-T14 layout reference library; it is not the default generated deck length.
+
 | Page | Layout | Core message | Visual form | Theme |
 |---|---|---|---|---|
-| 01 | T01 | Cover claim | 50/50 block field | split |
+| 01 | T01 | Cover claim | 50/50 concept map | split |
 | 02 | T02 | Three executive conclusions | Cards | light |
 | 03 | T03 | Chapter pivot | Large statement | wave |
 | 04 | T05 | Diagnosis | Matrix | light |
@@ -91,8 +103,11 @@ Rules:
 - Every slide has one core message.
 - Every slide uses a registered `Txx` layout.
 - 8+ slides need at least one `T03` section divider and one dark/wave/accent breathing page.
+- The fixed 9-page template suite may omit `T03` when it already alternates card, matrix, framework, roadmap, priority, loop, insight, and closing shapes.
 - Do not use five consecutive pages with the same visual shape.
 - Titles must be conclusion sentences, not labels such as "背景介绍" or "工作安排".
+- Use motion markers only when they clarify reading order. Leave unmarked slides static rather than adding decorative movement.
+- Use `data-animate="timeline"` for T08 roadmap pages.
 
 ### Step 4 Create Files
 
@@ -131,7 +146,18 @@ Hard rules:
 - Do not copy official Thoughtworks logo, oblique, templates, brand-pack visuals, or website screenshots.
 - Use 50/50 composition for cover/evidence/quote pages.
 - Use flat charts, matrices, roadmaps, and capability frameworks for argument pages.
+- Prefer `.concept-map`, `.compare-board`, and `.loop-diagram` for cover, before/after, and closed-loop pages when they fit the message.
 - Do not invent data. Mark unsupported analysis as "建议", "待核实", "可进一步调研", or "需材料确认".
+
+Motion rules:
+
+- Add `data-animate="hero|cascade|directional|loop|quote"` only on `.slide`.
+- Also use registered enhanced recipes when they fit the page: `timeline`, `matrix-scan`, `loop-trace`, `spotlight`.
+- Add `data-anim="up|left|right|line|card|row|node"` only on content elements whose reading order matters.
+- Do not add fluid backgrounds, parallax, or per-slide custom animation frameworks.
+- Do not add WebGL to normal content pages. The bundled lightweight WebGL canvas is controlled by the shared runtime and only appears on immersive pages.
+- Always keep content readable when motion is disabled. The template supports `B` to toggle low-power/static mode.
+- Keep `.control-help` discoverable in the lower presentation chrome so presenters see arrow/wheel/touch navigation and the current `B` dynamic/static state without covering the slide.
 
 Writing rules for Chinese management decks:
 
@@ -164,36 +190,41 @@ Run:
 node scripts/validate-thoughtworks-deck.mjs index.html
 ```
 
-Then open `index.html` in a browser and inspect:
-
-- Arrow key, wheel, and touch navigation.
-- No overlap with footer/navigation.
-- Body text remains readable.
-- Each slide has one message.
-- The deck does not use official assets or oblique-like decoration.
-
 For higher confidence, run the visual regression check before manual preview:
 
 ```bash
 node scripts/visual-check-deck.mjs index.html
 ```
 
-Review the generated screenshots and `report.json`; fix any failed visual checks before delivery.
+Then open `index.html` in a browser and inspect:
+
+- Arrow key, wheel, touch navigation, and `B` low-power toggle.
+- Lower presentation chrome control help switches between `B 静态` and `B 动态`.
+- No overlap between the slide canvas, footer, page rail, counter, or control help.
+- Mobile/tablet smoke checks keep the scaled slide visible instead of showing a blank background.
+- Body text remains readable.
+- Motion final states are visible and not distracting.
+- Each slide has one message.
+- The deck does not use official assets or oblique-like decoration.
+
+Review the generated screenshots and `report.json`; fix any failed static, visual, or low-power checks before delivery.
 
 ## Resource Map
 
 ```text
-thoughtworks-inspired-ppt-skill/
+boge-ppt-skill/
 ├── SKILL.md
 ├── templates/
 │   └── index.html
 ├── styles/
 │   └── thoughtworks-inspired.css
 ├── scripts/
+│   ├── boge-deck-runtime.js
 │   ├── validate-thoughtworks-deck.mjs
 │   └── visual-check-deck.mjs
 ├── assets/
-│   └── diagrams/
+│   ├── diagrams/
+│   └── vendor/
 ├── references/
 │   ├── style-lock.md
 │   ├── themes.md
@@ -204,15 +235,17 @@ thoughtworks-inspired-ppt-skill/
 │   ├── image-guide.md
 │   └── checklist.md
 └── examples/
-    └── full-layout-demo/
+    ├── full-layout-demo/
+    ├── template-suite/
+    └── template-gallery/
 ```
 
 ## Quick Trigger Examples
 
 ```text
-请使用 thoughtworks-inspired-ppt-skill，把这份材料整理成 8 页左右的 HTML PPT，风格强结构、结论先行、50/50 版式、适合央企内部汇报。
+请使用 boge-ppt-skill，把这份材料整理成 8 页左右的 HTML PPT，风格强结构、结论先行、50/50 版式、适合央企内部汇报。
 ```
 
 ```text
-请按 thoughtworks-inspired-ppt-skill 的规范，生成一份技术战略汇报 HTML PPT，包含技术雷达、能力框架和三阶段路线图。
+请按 boge-ppt-skill 的规范，生成一份技术战略汇报 HTML PPT，包含技术雷达、能力框架和三阶段路线图。
 ```

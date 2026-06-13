@@ -57,6 +57,17 @@ node scripts/validate-thoughtworks-deck.mjs path/to/index.html
 - Each slide has one message only.
 - Technical claims connect to business value, mechanism, boundary, or implementation path.
 
+### 7. Motion Safety
+
+- `data-animate` only uses registered recipes: `cascade`, `hero`, `quote`, `directional`, `loop`, `timeline`, `matrix-scan`, `loop-trace`, `spotlight`.
+- `data-anim` only uses registered tokens: `up`, `left`, `right`, `line`, `card`, `row`, `node`.
+- Animated content is decorative in sequence only; the page must remain readable when animation is disabled.
+- Pressing `B` toggles low-power/static mode.
+- In low-power mode and `prefers-reduced-motion`, every `data-anim` element is immediately visible.
+- In low-power mode, the lightweight WebGL ambience is stopped.
+- A single `.control-help` remains discoverable in the lower presentation chrome and switches between `B 静态` and `B 动态`.
+- The page rail, counter, and control hint stay outside the scaled slide canvas.
+
 ## P1 Visual Quality
 
 1. Page rhythm includes at least one dark/wave/accent page and one `T03` divider for decks with 8+ slides.
@@ -65,6 +76,10 @@ node scripts/validate-thoughtworks-deck.mjs path/to/index.html
 4. Diagrams are flat, readable, and not overloaded with SVG text.
 5. Images are rectangular and bound to a specific slot.
 6. Footers stay stable across all pages.
+7. Motion helps reveal reading order; it must not hide final state, delay core claims, or create distracting background movement.
+8. Short card, matrix, roadmap, before/after, and closed-loop pages use `.content-center` / `.body-center` when the default layout leaves excessive lower whitespace.
+9. The default reusable template suite is 9 pages; the 14-page T01-T14 demo is treated as a layout library.
+10. T08 uses `.roadmap-track` with stage number, action list, and output block; it does not use the old top-heavy `.timeline` alone.
 
 ## P2 Delivery Checks
 
@@ -88,9 +103,12 @@ node scripts/visual-check-deck.mjs path/to/index.html
 ```
 
 5. Review generated screenshots and `report.json`.
-6. Open `index.html` in a browser.
-7. Test arrow keys, wheel navigation, and touch if relevant.
-8. Inspect every slide at 100% browser zoom after scaling.
+6. Confirm `report.json` has no low-power failures and no unrevealed animated elements.
+7. Confirm the mobile/tablet smoke checks in `report.json.viewportChecks` show the scaled slide fully inside the viewport.
+7. Open `index.html` in a browser.
+8. Test arrow keys, wheel navigation, touch if relevant, and `B` low-power toggle.
+9. Confirm the presentation chrome controls do not overlap the slide canvas, footer, counter, or page navigation.
+10. Inspect every slide at 100% browser zoom after scaling.
 
 ## P3 Writing Tone
 

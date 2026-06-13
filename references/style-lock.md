@@ -1,6 +1,6 @@
 # Style Lock
 
-Generate Thoughtworks-inspired decks with public-brand-language constraints, not official template reproduction.
+Generate Boge PPT decks with public-brand-language constraints, not official template reproduction.
 
 ## Source Boundary
 
@@ -25,6 +25,10 @@ Do not use Thoughtworks official logo, official deck templates, official illustr
 8. Prefer vector-like diagrams, capability frameworks, matrices, roadmaps, radar views, data loops, and evidence panels.
 9. Keep page numbers and source notes in a stable footer. Do not place conclusions in the footer.
 10. Presentation readability wins over density: body text >= 18px, captions and footers >= 14px.
+11. Motion is allowed only as restrained reading-order support through registered `data-animate` and `data-anim` markers.
+12. Lightweight WebGL ambience is allowed only through the shared runtime on immersive pages: cover, chapter, dark, wave, accent, and closing.
+13. Do not add WebGL fluid backgrounds, parallax decoration, autoplaying decorative motion, or per-slide custom animation frameworks.
+14. Animated pages must degrade cleanly under `prefers-reduced-motion` and `B` low-power mode.
 
 ## Layout Rules
 
@@ -52,4 +56,5 @@ Do not use Thoughtworks official logo, official deck templates, official illustr
 4. Copy `templates/index.html`, replace the title placeholder, and replace demo slides.
 5. Use layout skeletons from `layouts.md`.
 6. Run `node scripts/validate-thoughtworks-deck.mjs path/to/index.html`.
-7. Open the HTML in a browser and inspect every slide.
+7. Run `node scripts/visual-check-deck.mjs path/to/index.html` when Playwright is available.
+8. Open the HTML in a browser and inspect every slide, including the `B` low-power toggle.
