@@ -71,7 +71,7 @@ node scripts/validate-thoughtworks-deck.mjs path/to/index.html
 - In low-power mode, the lightweight WebGL ambience is stopped.
 - A single `.control-help` exists, includes `ESC 预览`, and switches between `B 静态` and `B 动态`, but is auto-hidden in normal presentation.
 - Default presentation hides the bottom page rail and external counter; no red active page indicator is visible.
-- `data-deck-fit="cover"` fills the desktop browser; mobile/very small viewports may use contain-style preview to stay inspectable.
+- `data-deck-fit="contain"` is the default; desktop full-screen, mobile, and tablet viewports must keep the whole 16:9 slide visible. Use `cover` only when cropping is explicitly accepted.
 
 ## P1 Visual Quality
 
@@ -111,7 +111,7 @@ node scripts/visual-check-deck.mjs path/to/index.html
 
 5. Review generated screenshots and `report.json`.
 6. Confirm `report.json` has no low-power failures, overview failures, or unrevealed animated elements.
-7. Confirm `report.json.viewportChecks` show cover mode filling desktop viewports and small viewports staying inspectable.
+7. Confirm `report.json.viewportChecks` show the full slide inside 1920x1080, 1440x900, 1512x982, 1280x720, mobile, and tablet viewports.
 8. Open `index.html` in a browser.
 9. Test arrow keys, wheel navigation, touch if relevant, `Esc` overview, and `B` low-power toggle.
 10. Confirm no bottom red page rail, external counter, or persistent control help overlays the slide.

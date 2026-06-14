@@ -135,6 +135,10 @@ function sanitize(value) {
 
 async function runViewportSmokeChecks(browser, url) {
   const viewports = [
+    { name: 'fullscreen-1920x1080', width: 1920, height: 1080 },
+    { name: 'fullscreen-1440x900', width: 1440, height: 900 },
+    { name: 'fullscreen-1512x982', width: 1512, height: 982 },
+    { name: 'fullscreen-1280x720', width: 1280, height: 720 },
     { name: 'chrome-wide-1792', width: 1792, height: 947 },
     { name: 'mobile-390', width: 390, height: 844 },
     { name: 'tablet-768', width: 768, height: 1024 },
@@ -171,7 +175,7 @@ async function runViewportSmokeChecks(browser, url) {
           navVisible: visible(nav),
           counterVisible: visible(counter),
           controlHelpVisible: visible(controlHelp),
-          fitMode: document.body.dataset.effectiveDeckFit || document.body.dataset.deckFit || 'cover',
+          fitMode: document.body.dataset.effectiveDeckFit || document.body.dataset.deckFit || 'contain',
           controlHelpText: controlHelp?.textContent || '',
           activeTextLength: (document.querySelector('.slide.active')?.innerText || '').replace(/\s+/g, ' ').trim().length,
           viewport: { width: window.innerWidth, height: window.innerHeight },
@@ -319,7 +323,7 @@ try {
         navVisible: visible(nav),
         counterVisible: visible(counter),
         controlHelpVisible: visible(controlHelp),
-        fitMode: document.body.dataset.effectiveDeckFit || document.body.dataset.deckFit || 'cover',
+        fitMode: document.body.dataset.effectiveDeckFit || document.body.dataset.deckFit || 'contain',
         ambientRunning: document.body.dataset.ambientRunning || '0',
         navButtons: document.querySelectorAll('#nav button').length,
         unrevealedAnimCount: [...(active?.querySelectorAll('[data-anim]') || [])].filter((el) => {
@@ -356,8 +360,8 @@ try {
       if (rect && (rect.left > 2 || rect.top > 2 || rect.right < state.viewport.width - 2 || rect.bottom < state.viewport.height - 2)) {
         errors.push(`Slide ${index + 1}: cover mode active slide does not fill the viewport.`);
       }
-      if (state.navVisible) errors.push(`Slide ${index + 1}: page rail is visible in default cover mode.`);
-      if (state.counterVisible) errors.push(`Slide ${index + 1}: external counter is visible in default cover mode.`);
+      if (state.navVisible) errors.push(`Slide ${index + 1}: page rail is visible in presentation mode.`);
+      if (state.counterVisible) errors.push(`Slide ${index + 1}: external counter is visible in presentation mode.`);
     } else if (rect && (rect.left < -2 || rect.top < -2 || rect.right > state.viewport.width + 2 || rect.bottom > state.viewport.height + 2)) {
       errors.push(`Slide ${index + 1}: contain mode active slide extends outside viewport bounds.`);
     }

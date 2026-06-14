@@ -63,7 +63,7 @@ Press `B` during preview to toggle static low-power mode. All animated content m
 
 ## Interaction Help
 
-Every HTML deck must include one control hint element. In default `cover` mode it remains visually hidden so it does not cover slide content.
+Every HTML deck must include one control hint element. In default `contain` mode it remains visually hidden so it does not cover slide content.
 
 ```html
 <div class="control-help" id="controlHelp" aria-label="Keyboard and motion controls"></div>
@@ -87,7 +87,7 @@ Rules:
 - It must not remain visible over slide content during normal presentation.
 - The bottom page rail and external counter are hidden by default.
 - Use `Esc` overview for page jumping instead of a persistent red active page indicator.
-- `data-deck-fit="cover"` fills the browser by default; `contain` is reserved for full-canvas preview needs.
+- `data-deck-fit="contain"` is the default no-crop presentation mode. Use `cover` only when the user explicitly accepts slide cropping to fill the browser.
 
 ## ESC Overview
 
@@ -136,15 +136,15 @@ Use 50/50 composition for covers, visual explanations, evidence photos, and quot
     <p class="subtitle" data-anim="up">一到两句补充说明。</p>
   </div>
   <div class="half visual">
-    <div class="concept-map" aria-label="核心概念关系图" data-anim="right">
-      <div class="concept-row">
-        <div class="concept-node">规则</div><div class="concept-switch"></div><div class="concept-node muted">动作</div>
+    <div class="signal-system" aria-label="经营转型机制图" data-anim="right">
+      <div class="signal-row">
+        <div class="signal-node">经营判断</div><div class="signal-link"></div><div class="signal-node">数据证据</div>
       </div>
-      <div class="concept-row">
-        <div class="concept-node">数据</div><div class="concept-switch"></div><div class="concept-node muted">证据</div>
+      <div class="signal-row">
+        <div class="signal-node">管理规则</div><div class="signal-link"></div><div class="signal-node">平台能力</div>
       </div>
-      <div class="concept-row">
-        <div class="concept-node">机制</div><div class="concept-switch"></div><div class="concept-node muted">闭环</div>
+      <div class="signal-row">
+        <div class="signal-node">责任闭环</div><div class="signal-link"></div><div class="signal-node">持续行动</div>
       </div>
     </div>
   </div>
@@ -152,11 +152,11 @@ Use 50/50 composition for covers, visual explanations, evidence photos, and quot
 </section>
 ```
 
-Prefer `.concept-map`, approved flat diagrams, or evidence images. `.tile-field` remains allowed for radar/demo placeholders, but should not be the default cover visual. Do not use oblique-shaped decoration.
+Prefer `.signal-system` for Executive Transformation covers and `.tech-system` for Technology Strategy covers. `.concept-map`, approved flat diagrams, or evidence images remain available for non-default 50/50 explanations. `.tile-field` remains allowed for radar/demo placeholders, but should not be the default cover visual. Do not use oblique-shaped decoration.
 
 ## Concept Map
 
-Use for 50/50 covers and explanation pages where two vocabularies, states, or responsibilities are being mapped.
+Use for non-default 50/50 explanation pages where two vocabularies, states, or responsibilities are being mapped. Do not use it as the default generated cover; use `.signal-system` or `.tech-system` for the two canonical suites.
 
 ```html
 <div class="concept-map" aria-label="表达与接收关系图" data-anim="right">

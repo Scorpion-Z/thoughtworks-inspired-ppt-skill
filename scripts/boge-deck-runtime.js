@@ -18,8 +18,8 @@
   const motionAnimate = window.Motion?.animate;
 
   function requestedFitMode() {
-    const mode = document.body.dataset.deckFit || deck?.dataset.deckFit || "cover";
-    return mode === "contain" ? "contain" : "cover";
+    const mode = document.body.dataset.deckFit || deck?.dataset.deckFit || "contain";
+    return mode === "cover" ? "cover" : "contain";
   }
 
   function effectiveFitMode() {
@@ -31,8 +31,8 @@
 
   function fit() {
     const mode = effectiveFitMode();
-    const chromeX = mode === "cover" ? 0 : 56;
-    const chromeY = mode === "cover" ? 0 : 104;
+    const chromeX = 0;
+    const chromeY = 0;
     const availableWidth = Math.max(320, window.innerWidth - chromeX);
     const availableHeight = Math.max(220, window.innerHeight - chromeY);
     const scaleMode = mode === "cover" ? Math.max : Math.min;

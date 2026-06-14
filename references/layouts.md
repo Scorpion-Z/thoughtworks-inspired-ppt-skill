@@ -1,13 +1,13 @@
 # Layouts
 
-Read `layout-lock.md` first. Copy one skeleton, then replace text and assets. Keep `data-layout` unchanged.
+Read `layout-lock.md` first. Start from one canonical 12-page suite when generating a deck, then use these skeletons only to extend or replace individual pages. Keep `data-layout` unchanged.
 
 ## Pre-flight
 
 Before writing slides:
 
 1. Confirm `templates/index.html` includes `styles/thoughtworks-inspired.css`.
-2. Confirm `<body>` uses exactly one `theme-*` class and `data-deck-fit="cover"` unless the user explicitly needs `contain`.
+2. Confirm `<body>` uses exactly one `theme-*` class and `data-deck-fit="contain"` unless the user explicitly accepts cropped `cover` mode.
 3. Confirm each slide has `class="slide {theme}"` and `data-layout="Txx"`.
 4. Confirm title text is a conclusion sentence.
 5. Confirm the page rhythm table alternates content shapes.
@@ -45,15 +45,15 @@ Use for cover pages and strong opening claims.
     <p class="subtitle" data-anim="up">一句说明 deck 的业务目标、范围和方法。</p>
   </div>
   <div class="half visual">
-    <div class="concept-map" aria-label="经营语言关系图" data-anim="right">
-      <div class="concept-row">
-        <div class="concept-node">指标</div><div class="concept-switch"></div><div class="concept-node muted">责任</div>
+    <div class="signal-system" aria-label="经营转型机制图" data-anim="right">
+      <div class="signal-row">
+        <div class="signal-node">经营判断</div><div class="signal-link"></div><div class="signal-node">数据证据</div>
       </div>
-      <div class="concept-row">
-        <div class="concept-node">数据</div><div class="concept-switch"></div><div class="concept-node muted">证据</div>
+      <div class="signal-row">
+        <div class="signal-node">管理规则</div><div class="signal-link"></div><div class="signal-node">平台能力</div>
       </div>
-      <div class="concept-row">
-        <div class="concept-node">规则</div><div class="concept-switch"></div><div class="concept-node muted">闭环</div>
+      <div class="signal-row">
+        <div class="signal-node">责任闭环</div><div class="signal-link"></div><div class="signal-node">持续行动</div>
       </div>
     </div>
   </div>

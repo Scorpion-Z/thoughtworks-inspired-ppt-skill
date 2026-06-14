@@ -98,7 +98,7 @@ Use `examples/template-gallery/` to review the two-suite legend, page rhythm, an
 
 | Page | Layout | Core message | Visual form | Theme |
 |---|---|---|---|---|
-| 01 | T01 | Cover claim | 50/50 concept map | split |
+| 01 | T01 | Cover claim | 50/50 suite system visual | split |
 | 02 | T02 | Three executive conclusions | Cards | light |
 | 03 | T03 | Chapter pivot | Large statement | wave |
 | 04 | T05/T10 | Diagnosis or technology radar | Matrix or radar | light |
@@ -143,25 +143,25 @@ Immediately replace:
 Set exactly one theme class on `<body>`:
 
 ```html
-<body class="theme-wave" data-deck-fit="cover">
+<body class="theme-wave" data-deck-fit="contain">
 ```
 
 Choose from `theme-wave`, `theme-flamingo`, `theme-sapphire`, `theme-jade`, `theme-amethyst`, `theme-turmeric`.
 
-Use `data-deck-fit="cover"` by default for browser presentations. Use `contain` only when every pixel of the 16:9 canvas must stay visible in non-16:9 windows.
+Use `data-deck-fit="contain"` by default for browser presentations so every pixel of the 16:9 canvas remains visible in full-screen and non-16:9 windows. Use `cover` only when the user explicitly accepts cropping to fill the browser.
 
 ### Step 5 Fill Slides
 
-Use only skeletons from `references/layouts.md`.
+Start from one canonical 12-page suite: `examples/template-suite/` for Executive Transformation or `examples/template-suite-technology/` for Technology Strategy. Use the `references/layouts.md` skeletons only when extending or replacing an individual page while preserving the suite rhythm shown in `examples/template-gallery/images/template-overview.png`.
 
 Hard rules:
 
 - Every slide must be `<section class="slide {theme}" data-layout="Txx">`.
 - Use CSS classes from `references/components.md`.
 - Do not copy official Thoughtworks logo, oblique, templates, brand-pack visuals, or website screenshots.
-- Use 50/50 composition for cover/evidence/quote pages.
+- Use the canonical 50/50 cover visual language: `.signal-system` for Executive Transformation and `.tech-system` for Technology Strategy.
 - Use flat charts, matrices, roadmaps, and capability frameworks for argument pages.
-- Prefer `.concept-map`, `.compare-board`, and `.loop-diagram` for cover, before/after, and closed-loop pages when they fit the message.
+- Prefer `.compare-board`, `.loop-diagram`, `.signal-system`, and `.tech-system` for before/after, closed-loop, and cover pages when they fit the message. `.concept-map` remains available in the T01-T14 layout library, but it is not the default generated cover.
 - Do not invent data. Mark unsupported analysis as "建议", "待核实", "可进一步调研", or "需材料确认".
 
 Motion rules:
@@ -215,10 +215,10 @@ Then open `index.html` in a browser and inspect:
 
 - Arrow key, wheel, touch navigation, and `B` low-power toggle.
 - `Esc` opens full-page thumbnail overview; clicking a thumbnail jumps to that page and closes overview.
-- Deck fills the browser in desktop `cover` mode and does not show gray outer margins.
+- Deck uses default `contain` mode so the whole 16:9 slide stays visible in desktop and full-screen browser windows; letterboxing is acceptable on non-16:9 screens.
 - Bottom page rail and external counter stay hidden in normal presentation mode.
 - Auto-hidden control help includes `ESC 预览` and switches between `B 静态` and `B 动态` when visible.
-- Mobile/tablet smoke checks keep the scaled slide visible instead of showing a blank background.
+- Desktop full-screen, mobile, and tablet smoke checks keep the scaled slide fully visible instead of cropping content or showing a blank background.
 - Body text remains readable.
 - Motion final states are visible and not distracting.
 - Each slide has one message.
