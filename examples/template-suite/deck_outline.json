@@ -1,0 +1,166 @@
+{
+  "title": "经营转型模板 - Wave",
+  "generated_at": "2026-06-14",
+  "suite": "executive-transformation",
+  "theme": "theme-wave",
+  "palette_label": "Wave",
+  "accent": "#003D4F",
+  "slides": [
+    {
+      "page": "01",
+      "layout": "T01",
+      "role": "封面主张",
+      "message": "让数智化转型进入经营闭环，而不是停留在系统展示",
+      "visual": "50/50 经营语言映射",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "02",
+      "layout": "T02",
+      "role": "核心结论",
+      "message": "转型汇报先给出三个高层判断，再展开证据、机制和行动路径",
+      "visual": "三张高管结论卡片",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "03",
+      "layout": "T03",
+      "role": "章节转场",
+      "message": "先把经营语言统一，再让平台承载统一后的行动",
+      "visual": "深色章节锚点",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "04",
+      "layout": "T05",
+      "role": "差距诊断",
+      "message": "差距诊断要同时说明表象、根因和管理动作",
+      "visual": "问题-原因-动作矩阵",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "05",
+      "layout": "T07",
+      "role": "模式转变",
+      "message": "目标不是多做一套报表，而是让经营分析从事后解释转向前置治理",
+      "visual": "Before / After 对照",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "06",
+      "layout": "T06",
+      "role": "能力框架",
+      "message": "能力框架要把治理机制、业务场景、数据体系和平台能力放到同一张图里",
+      "visual": "五层能力架构",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "07",
+      "layout": "T08",
+      "role": "实施路线",
+      "message": "三阶段推进：重点场景牵引、标准组件固化、集团范围推广",
+      "visual": "三阶段路线图",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "08",
+      "layout": "T11",
+      "role": "闭环机制",
+      "message": "闭环页要说明问题如何被发现、分派、整改和验证",
+      "visual": "四节点闭环图",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "09",
+      "layout": "T12",
+      "role": "证据页",
+      "message": "证据页要说明案例或截图证明了什么，而不是把图片当装饰",
+      "visual": "50/50 证据说明",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "10",
+      "layout": "T09",
+      "role": "优先级",
+      "message": "优先选择高价值、可验证、责任边界清晰的场景作为试点",
+      "visual": "价值-准备度矩阵",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "11",
+      "layout": "T13",
+      "role": "图表附件",
+      "message": "图表附件沉淀可复用表达，让后续汇报快速替换内容",
+      "visual": "图表资产画廊",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "12",
+      "layout": "T14",
+      "role": "行动收束",
+      "message": "转型的真正交付物，是一套可持续运行的经营机制",
+      "visual": "结束语与三项动作",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    }
+  ]
+}

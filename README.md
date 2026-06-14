@@ -25,20 +25,22 @@ Most agent-generated PPT-style HTML has the same problems:
 Boge PPT Skill turns those concerns into reusable constraints:
 
 - registered layouts from `T01` to `T14`;
-- a default 9-page consulting narrative;
+- a default 12-page consulting narrative;
 - controlled typography, color, spacing, and footer rules;
 - optional but restrained motion recipes;
 - static validation and Playwright visual regression checks;
-- presentation chrome for navigation, page progress, counters, and low-power mode.
+- full-browser presentation mode, keyboard/touch navigation, overview, and low-power mode.
 
 ## Highlights
 
 - **Agent-first workflow**: designed for Codex, Claude Code, Cursor, and similar coding agents.
-- **Browser-native deck**: outputs a self-contained HTML presentation directory.
+- **Browser-native deck**: outputs a self-contained HTML presentation directory that fills the browser by default.
 - **Consulting-grade structure**: conclusion-first writing, evidence-led layouts, matrices, roadmaps, loops, and executive summaries.
-- **Reusable template suite**: a production 9-page deck plus a full `T01`-`T14` layout library.
+- **Two reusable template suites**: Executive Transformation and Technology Strategy, each with 12 production-ready pages.
+- **Template gallery**: a 3-page HTML overview that introduces the two suites, page rhythm, and color options.
 - **Motion with fallback**: local Motion One vendor first, Web Animations API fallback when unavailable.
 - **Low-power mode**: press `B` to disable motion and WebGL ambience during presentation.
+- **Full-page overview**: press `Esc` to review every slide as thumbnails and jump to any page.
 - **Visual safety net**: screenshot-based checks catch blank pages, hidden animation states, footer overlap, mobile/tablet preview issues, and control overlap.
 - **No official asset leakage**: no official Thoughtworks logo, oblique, screenshots, templates, or brand-pack files.
 
@@ -118,37 +120,57 @@ npm run check
 npm run visual:template
 npm run visual:demo
 npm run visual:suite
+npm run visual:suite:technology
 npm run visual:gallery
 ```
 
 ## Template System
 
-The default reusable deck is **9 pages**. It is long enough for a complete consulting or transformation storyline, but short enough to avoid becoming a layout catalog.
+The default reusable deck length is **12 pages**. This is long enough for a complete consulting narrative, while still short enough to stay presentable in an executive meeting. The repository ships two 12-page suites:
+
+| Suite | Scenario | Default theme | Alternate themes |
+|---|---|---|---|
+| Executive Transformation Suite | 高层数智化转型、经营穿透、管理机制、治理闭环 | `theme-wave` | `theme-jade`, `theme-flamingo` |
+| Technology Strategy Suite | 技术战略、数据/AI 平台、技术雷达、架构路线图 | `theme-sapphire` | `theme-amethyst`, `theme-turmeric` |
+
+Executive Transformation sequence:
+
+```text
+T01 -> T02 -> T03 -> T05 -> T07 -> T06 -> T08 -> T11 -> T12 -> T09 -> T13 -> T14
+```
+
+Technology Strategy sequence:
+
+```text
+T01 -> T02 -> T03 -> T10 -> T06 -> T13 -> T09 -> T08 -> T04 -> T12 -> T05 -> T14
+```
+
+These two scenario-specific 12-page suites are the default reusable templates. `examples/full-layout-demo/` remains the complete `T01`-`T14` layout library, not the default deck.
+
+The recommended page semantics are:
 
 ```text
 01 Cover
 02 Executive summary
-03 Diagnosis
-04 Capability framework
-05 Roadmap
-06 Priority matrix
-07 Closed loop
-08 Key insight
-09 Closing
+03 Chapter pivot
+04 Diagnosis or radar
+05 Operating shift or capability framework
+06 Capability framework or solution blueprint
+07 Roadmap or priority matrix
+08 Closed loop or architecture roadmap
+09 Evidence or architecture principle
+10 Priority, evidence, or risk control
+11 Appendix, diagram set, or risk matrix
+12 Closing
 ```
 
-Layout sequence:
-
-```text
-T01 -> T02 -> T05 -> T06 -> T08 -> T09 -> T11 -> T04 -> T14
-```
-
-The repository includes three example surfaces:
+The repository includes four example surfaces:
 
 | Example | Purpose |
 |---|---|
-| `examples/template-suite/` | A real 9-page consulting deck template |
-| `examples/template-gallery/` | A gallery-style preview of the 9-page suite |
+| `examples/template-suite/` | Executive Transformation 12-page production template |
+| `examples/template-suite-technology/` | Technology Strategy 12-page production template |
+| `examples/template-gallery/` | A two-suite overview with the template legend, page order, and palette swatches |
 | `examples/full-layout-demo/` | The complete `T01`-`T14` layout library |
 
 ## Layout Library
@@ -177,7 +199,7 @@ The repository includes three example surfaces:
 3. **One accent per deck.** Keep color purposeful and restrained.
 4. **Readable by default.** Body text should stay legible in presentation mode.
 5. **Motion clarifies order.** Animation is allowed only when it improves reading sequence.
-6. **Presenter controls stay outside the slide.** Page rail, counter, and keyboard hint are presentation chrome, not slide content.
+6. **Presenter controls stay minimal.** Generated decks fill the browser; page rail and external counters stay hidden by default, while the keyboard hint auto-hides.
 7. **No official assets.** The project stays inside an unofficial, public-design-language boundary.
 
 ## Motion And Interaction
@@ -211,9 +233,18 @@ Runtime controls:
 | `←` / `→` | Previous / next slide |
 | Wheel | Slide navigation |
 | Touch swipe | Slide navigation |
+| `Esc` | Open / close all-slide overview |
 | `B` | Toggle dynamic/static low-power mode |
 
-The control hint, page rail, and counter are rendered as lower presentation chrome outside the scaled slide canvas, so they do not cover the deck content during Chrome or browser preview.
+The bottom page rail and external counter are hidden by default, and the control hint auto-hides so the deck can fill the browser without persistent overlays. In overview mode, thumbnails are generated by the runtime from the real slide DOM; clicking a thumbnail jumps to that slide.
+
+Display mode:
+
+```html
+<body class="theme-wave" data-deck-fit="cover">
+```
+
+`cover` is the default desktop mode: the 16:9 slide fills the browser and may crop slightly on unusual aspect ratios. Use `data-deck-fit="contain"` only when the full slide must remain visible with letterboxing. The bottom page rail and external counter are hidden by default; press `Esc` for full-page navigation.
 
 ## Quality Gates
 
@@ -231,6 +262,7 @@ npm run check
 npm run visual:template
 npm run visual:demo
 npm run visual:suite
+npm run visual:suite:technology
 npm run visual:gallery
 ```
 
@@ -238,8 +270,11 @@ The visual checker uses Playwright to validate:
 
 - exactly one active slide;
 - visible text and non-blank pages;
-- footer, counter, navigation, and control safety;
+- full-browser `cover` fill or `contain` preview scaling;
+- hidden page rail and external counter in default presentation mode;
+- footer and content safety;
 - animation final states;
+- `Esc` overview mode, current thumbnail highlighting, and thumbnail jump navigation;
 - `B` low-power mode;
 - WebGL ambience shutdown in low-power mode;
 - mobile and tablet preview smoke checks;
@@ -277,6 +312,7 @@ boge-ppt-skill/
 └── examples/
     ├── full-layout-demo/
     ├── template-suite/
+    ├── template-suite-technology/
     └── template-gallery/
 ```
 
@@ -293,7 +329,7 @@ boge-ppt-skill/
 ```
 
 ```text
-请把这份数据治理材料改造成 9 页模板套图。
+请把这份数据治理材料改造成 12 页模板套图。
 要求：使用 theme-wave，不使用官方 logo、官网截图或任何品牌包资产。
 ```
 
@@ -305,6 +341,7 @@ npm run check
 npm run visual:template
 npm run visual:demo
 npm run visual:suite
+npm run visual:suite:technology
 npm run visual:gallery
 ```
 

@@ -110,3 +110,23 @@ Use turmeric sparingly. It is a signal color, not a full-deck background color.
 6. Use `theme-turmeric` only for warning or urgency narratives.
 7. Never mix multiple `body.theme-*` classes in one deck.
 8. Do not accept arbitrary custom HEX values unless the user explicitly prioritizes client-brand adaptation over the Boge PPT / Thoughtworks-inspired design boundary.
+
+## Suite Palette Mapping
+
+Executive Transformation Suite:
+
+| Palette | Use |
+|---|---|
+| `theme-wave` | Default executive transformation,经营穿透, management reporting |
+| `theme-jade` | Governance, quality, risk, controls, sustainability |
+| `theme-flamingo` | Decision escalation, change urgency, focused call to action |
+
+Technology Strategy Suite:
+
+| Palette | Use |
+|---|---|
+| `theme-sapphire` | Default technology strategy, data/AI platform, architecture |
+| `theme-amethyst` | Product innovation, organization change, platform adoption |
+| `theme-turmeric` | Risk, timing pressure, technical debt, migration urgency |
+
+Each generated deck still uses exactly one `body.theme-*` class. Palette variants are starting points for the whole deck, not per-slide color mixing.

@@ -63,10 +63,15 @@ node scripts/validate-thoughtworks-deck.mjs path/to/index.html
 - `data-anim` only uses registered tokens: `up`, `left`, `right`, `line`, `card`, `row`, `node`.
 - Animated content is decorative in sequence only; the page must remain readable when animation is disabled.
 - Pressing `B` toggles low-power/static mode.
+- Pressing `Esc` opens and closes full-page overview.
+- Overview thumbnail count equals slide count; exactly one thumbnail is current.
+- Clicking an overview thumbnail jumps to that slide and closes overview.
+- While overview is open, arrow, wheel, and touch navigation do not change the active slide.
 - In low-power mode and `prefers-reduced-motion`, every `data-anim` element is immediately visible.
 - In low-power mode, the lightweight WebGL ambience is stopped.
-- A single `.control-help` remains discoverable in the lower presentation chrome and switches between `B 静态` and `B 动态`.
-- The page rail, counter, and control hint stay outside the scaled slide canvas.
+- A single `.control-help` exists, includes `ESC 预览`, and switches between `B 静态` and `B 动态`, but is auto-hidden in normal presentation.
+- Default presentation hides the bottom page rail and external counter; no red active page indicator is visible.
+- `data-deck-fit="cover"` fills the desktop browser; mobile/very small viewports may use contain-style preview to stay inspectable.
 
 ## P1 Visual Quality
 
@@ -78,8 +83,10 @@ node scripts/validate-thoughtworks-deck.mjs path/to/index.html
 6. Footers stay stable across all pages.
 7. Motion helps reveal reading order; it must not hide final state, delay core claims, or create distracting background movement.
 8. Short card, matrix, roadmap, before/after, and closed-loop pages use `.content-center` / `.body-center` when the default layout leaves excessive lower whitespace.
-9. The default reusable template suite is 9 pages; the 14-page T01-T14 demo is treated as a layout library.
+9. The reusable template suites are 12 pages each; the 14-page T01-T14 demo is treated as a layout library.
 10. T08 uses `.roadmap-track` with stage number, action list, and output block; it does not use the old top-heavy `.timeline` alone.
+11. Executive Transformation uses `T01 -> T02 -> T03 -> T05 -> T07 -> T06 -> T08 -> T11 -> T12 -> T09 -> T13 -> T14`.
+12. Technology Strategy uses `T01 -> T02 -> T03 -> T10 -> T06 -> T13 -> T09 -> T08 -> T04 -> T12 -> T05 -> T14`.
 
 ## P2 Delivery Checks
 
@@ -103,12 +110,12 @@ node scripts/visual-check-deck.mjs path/to/index.html
 ```
 
 5. Review generated screenshots and `report.json`.
-6. Confirm `report.json` has no low-power failures and no unrevealed animated elements.
-7. Confirm the mobile/tablet smoke checks in `report.json.viewportChecks` show the scaled slide fully inside the viewport.
-7. Open `index.html` in a browser.
-8. Test arrow keys, wheel navigation, touch if relevant, and `B` low-power toggle.
-9. Confirm the presentation chrome controls do not overlap the slide canvas, footer, counter, or page navigation.
-10. Inspect every slide at 100% browser zoom after scaling.
+6. Confirm `report.json` has no low-power failures, overview failures, or unrevealed animated elements.
+7. Confirm `report.json.viewportChecks` show cover mode filling desktop viewports and small viewports staying inspectable.
+8. Open `index.html` in a browser.
+9. Test arrow keys, wheel navigation, touch if relevant, `Esc` overview, and `B` low-power toggle.
+10. Confirm no bottom red page rail, external counter, or persistent control help overlays the slide.
+11. Inspect every slide at 100% browser zoom after scaling.
 
 ## P3 Writing Tone
 

@@ -63,7 +63,7 @@ Press `B` during preview to toggle static low-power mode. All animated content m
 
 ## Interaction Help
 
-Every HTML deck must include one control hint in the presentation chrome outside the slide canvas. Keep the text short and let the runtime update the `B` state.
+Every HTML deck must include one control hint element. In default `cover` mode it remains visually hidden so it does not cover slide content.
 
 ```html
 <div class="control-help" id="controlHelp" aria-label="Keyboard and motion controls"></div>
@@ -72,22 +72,36 @@ Every HTML deck must include one control hint in the presentation chrome outside
 Default text:
 
 ```text
-←/→ 翻页 · 滚轮/滑动 · B 静态
+←/→ 翻页 · 滚轮/滑动 · ESC 预览 · B 静态
 ```
 
 Low-power/static mode text:
 
 ```text
-←/→ 翻页 · 滚轮/滑动 · B 动态
+←/→ 翻页 · 滚轮/滑动 · ESC 预览 · B 动态
 ```
 
 Rules:
 
 - Do not place it inside a slide.
-- It must not overlap the scaled slide, footer, page counter, or page navigation.
-- The runtime may place it in the lower chrome bar or collapse it in very tight viewports.
-- It is an intentional presenter affordance and should remain discoverable in generated decks.
-- Dot navigation should render as a low-profile page rail, not as large blocks inside the slide.
+- It must not remain visible over slide content during normal presentation.
+- The bottom page rail and external counter are hidden by default.
+- Use `Esc` overview for page jumping instead of a persistent red active page indicator.
+- `data-deck-fit="cover"` fills the browser by default; `contain` is reserved for full-canvas preview needs.
+
+## ESC Overview
+
+The shared runtime creates an overview layer from the real `.slide` nodes. Do not hand-code overview thumbnails in deck HTML.
+
+Behavior:
+
+- Press `Esc` to open or close full-page preview.
+- The current slide thumbnail uses `.overview-card.is-current`.
+- Clicking a thumbnail jumps to that slide and closes overview.
+- While overview is open, arrow keys, wheel, and touch navigation must not change the active slide.
+- In low-power mode, every thumbnail must show final content immediately.
+
+The CSS classes `.overview`, `.overview-grid`, `.overview-card`, `.overview-thumb`, and `.overview-card-meta` are runtime-owned. Do not repurpose them for slide content.
 
 ## Vertical Centering
 

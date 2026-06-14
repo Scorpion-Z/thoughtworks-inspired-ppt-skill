@@ -1,0 +1,166 @@
+{
+  "title": "技术战略模板 - Sapphire",
+  "generated_at": "2026-06-14",
+  "suite": "technology-strategy",
+  "theme": "theme-sapphire",
+  "palette_label": "Sapphire",
+  "accent": "#47A1AD",
+  "slides": [
+    {
+      "page": "01",
+      "layout": "T01",
+      "role": "技术主张",
+      "message": "把技术投资从项目清单，升级为面向未来的能力组合",
+      "visual": "50/50 技术能力映射",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "02",
+      "layout": "T02",
+      "role": "战略信号",
+      "message": "技术战略先回答三个问题：为什么现在、投向哪里、如何验证",
+      "visual": "三张战略信号卡片",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "03",
+      "layout": "T03",
+      "role": "章节转场",
+      "message": "从技术清单转向能力组合，技术战略才有管理抓手",
+      "visual": "深色章节锚点",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "04",
+      "layout": "T10",
+      "role": "技术雷达",
+      "message": "技术雷达把采用、试点、评估和谨慎推进的判断明确分层",
+      "visual": "雷达与图例",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "05",
+      "layout": "T06",
+      "role": "平台能力",
+      "message": "平台能力框架应同时覆盖数据、AI、工程、集成、安全和运营",
+      "visual": "五层平台架构",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "06",
+      "layout": "T13",
+      "role": "方案蓝图",
+      "message": "方案蓝图要把能力模块、复用边界和价值验证方式放在同一页",
+      "visual": "六宫格蓝图",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "07",
+      "layout": "T09",
+      "role": "优先级",
+      "message": "优先级矩阵用于把技术价值、实施准备度和风险边界说清楚",
+      "visual": "价值-准备度矩阵",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "08",
+      "layout": "T08",
+      "role": "技术路线",
+      "message": "技术路线图应按场景试点、平台固化、规模化运营推进",
+      "visual": "三阶段路线图",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "09",
+      "layout": "T04",
+      "role": "架构原则",
+      "message": "技术原则不是口号，而是约束投入、复用和风险边界的决策规则",
+      "visual": "深色洞察页",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "10",
+      "layout": "T12",
+      "role": "证据页",
+      "message": "案例证据必须连接业务价值、工程边界和可验证指标",
+      "visual": "50/50 证据说明",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "11",
+      "layout": "T05",
+      "role": "风险控制",
+      "message": "风险控制页要把技术债、安全韧性和迁移节奏转化为管理动作",
+      "visual": "风险-影响-动作矩阵",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    },
+    {
+      "page": "12",
+      "layout": "T14",
+      "role": "工程行动",
+      "message": "技术战略的价值，在于形成可复用、可验证、可运营的能力组合",
+      "visual": "结束语与三项动作",
+      "replaceable_slots": [
+        "title",
+        "subtitle_or_body",
+        "diagram_or_matrix_labels",
+        "footer_label"
+      ]
+    }
+  ]
+}

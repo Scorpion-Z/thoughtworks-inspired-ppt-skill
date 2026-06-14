@@ -105,6 +105,7 @@ function doctor() {
     'scripts/boge-deck-runtime.js',
     'examples/full-layout-demo/index.html',
     'examples/template-suite/index.html',
+    'examples/template-suite-technology/index.html',
     'examples/template-gallery/index.html',
   ];
   const missing = required.filter((item) => !exists(item));
@@ -129,7 +130,11 @@ Package bin aliases:
   thoughtworks-ppt-skill
 
   npm run check
+  npm run visual:template
   npm run visual:demo
+  npm run visual:suite
+  npm run visual:suite:technology
+  npm run visual:gallery
 
 Skill registry style:
   npx skills add https://github.com/Scorpion-Z/thoughtworks-inspired-ppt-skill --skill boge-ppt-skill

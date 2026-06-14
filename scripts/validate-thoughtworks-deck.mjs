@@ -38,7 +38,10 @@ const weakTitleRe = /^(背景介绍|项目背景|工作安排|目录|现状介�
 
 const layoutCounts = new Map();
 const themeClasses = [];
-const templateSuiteSequence = ['T01', 'T02', 'T05', 'T06', 'T08', 'T09', 'T11', 'T04', 'T14'];
+const templateSuiteSequences = [
+  ['T01', 'T02', 'T03', 'T05', 'T07', 'T06', 'T08', 'T11', 'T14'],
+  ['T01', 'T02', 'T03', 'T10', 'T06', 'T13', 'T09', 'T08', 'T14'],
+];
 
 function attr(tag, name) {
   return tag.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1] ?? '';
@@ -72,8 +75,13 @@ if (bodyThemes.length !== 1) {
   errors.push(`Body must include exactly one theme-* class; found ${bodyThemes.length}.`);
 }
 
+const deckFit = attr(bodyTag, 'data-deck-fit');
+if (deckFit && !['cover', 'contain'].includes(deckFit)) {
+  errors.push(`Body data-deck-fit="${deckFit}" is invalid. Use "cover" or "contain".`);
+}
+
 if (!/\bclass="[^"]*\bcontrol-help\b/i.test(htmlWithoutComments)) {
-  errors.push('Deck must include .control-help for keyboard, swipe, and B static/dynamic guidance.');
+  errors.push('Deck must include .control-help for keyboard, swipe, ESC overview, and B static/dynamic guidance.');
 }
 
 if (!/\bclass="[^"]*\bambient-canvas\b/i.test(htmlWithoutComments)) {
@@ -212,10 +220,10 @@ if (slides.length >= 8) {
   const hasDark = themeClasses.some((theme) => theme === 'dark' || theme === 'wave' || theme === 'accent' || theme === 'split');
   const hasSection = slides.some((slide) => slide.tag.includes('data-layout="T03"'));
   const layoutSequence = slides.map((slide) => slide.tag.match(/\bdata-layout="([^"]+)"/)?.[1] ?? '');
-  const isDefaultTemplateSuite = layoutSequence.length === templateSuiteSequence.length
-    && layoutSequence.every((layout, index) => layout === templateSuiteSequence[index]);
+  const isRecognizedTemplateSuite = templateSuiteSequences.some((sequence) => layoutSequence.length === sequence.length
+    && layoutSequence.every((layout, index) => layout === sequence[index]));
   if (!hasDark) warnings.push('Deck has 8+ slides but no dark/wave/accent breathing page.');
-  if (!hasSection && !isDefaultTemplateSuite) warnings.push('Deck has 8+ slides but no T03 section divider.');
+  if (!hasSection && !isRecognizedTemplateSuite) warnings.push('Deck has 8+ slides but no T03 section divider.');
 }
 
 let repeatRun = 1;

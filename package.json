@@ -13,14 +13,16 @@
     "install:global-skill": "node ./bin/thoughtworks-ppt-skill.js global",
     "demo": "node ./bin/thoughtworks-ppt-skill.js init ./demo-deck --demo",
     "build:example": "node ./bin/thoughtworks-ppt-skill.js init ./example-output --demo",
-    "check": "node ./bin/thoughtworks-ppt-skill.js doctor && node ./scripts/validate-thoughtworks-deck.mjs ./templates/index.html --allow-template-placeholders && node ./scripts/validate-thoughtworks-deck.mjs ./examples/full-layout-demo/index.html && node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-suite/index.html && node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-gallery/index.html",
+    "check": "node ./bin/thoughtworks-ppt-skill.js doctor && node ./scripts/validate-thoughtworks-deck.mjs ./templates/index.html --allow-template-placeholders && node ./scripts/validate-thoughtworks-deck.mjs ./examples/full-layout-demo/index.html && node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-suite/index.html && node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-suite-technology/index.html && node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-gallery/index.html",
     "validate:template": "node ./scripts/validate-thoughtworks-deck.mjs ./templates/index.html --allow-template-placeholders",
     "validate:demo": "node ./scripts/validate-thoughtworks-deck.mjs ./examples/full-layout-demo/index.html",
     "validate:suite": "node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-suite/index.html",
+    "validate:suite:technology": "node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-suite-technology/index.html",
     "validate:gallery": "node ./scripts/validate-thoughtworks-deck.mjs ./examples/template-gallery/index.html",
     "visual:template": "node ./scripts/visual-check-deck.mjs ./templates/index.html",
     "visual:demo": "node ./scripts/visual-check-deck.mjs ./examples/full-layout-demo/index.html",
     "visual:suite": "node ./scripts/visual-check-deck.mjs ./examples/template-suite/index.html",
+    "visual:suite:technology": "node ./scripts/visual-check-deck.mjs ./examples/template-suite-technology/index.html",
     "visual:gallery": "node ./scripts/visual-check-deck.mjs ./examples/template-gallery/index.html"
   },
   "keywords": [

@@ -1,5 +1,6 @@
 (() => {
   const slides = Array.from(document.querySelectorAll(".slide"));
+  const deck = document.getElementById("deck");
   const nav = document.getElementById("nav");
   const counter = document.getElementById("counter");
   const controlHelp = document.getElementById("controlHelp");
@@ -7,22 +8,40 @@
   let current = Math.max(0, slides.findIndex((slide) => slide.classList.contains("active")));
   let wheelLock = false;
   let touchStartX = null;
+  let chromeTimer = 0;
+  let overviewOpen = false;
+  let overview = null;
+  let overviewGrid = null;
   let lowPower = localStorage.getItem(lowPowerKey) === "1"
     || (localStorage.getItem(lowPowerKey) === null && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   const activeAnimations = new Set();
   const motionAnimate = window.Motion?.animate;
 
+  function requestedFitMode() {
+    const mode = document.body.dataset.deckFit || deck?.dataset.deckFit || "cover";
+    return mode === "contain" ? "contain" : "cover";
+  }
+
+  function effectiveFitMode() {
+    const requested = requestedFitMode();
+    const aspect = window.innerWidth / Math.max(1, window.innerHeight);
+    const tightPreview = window.innerWidth < 700 || window.innerHeight < 520 || aspect < 1.35;
+    return requested === "cover" && !tightPreview ? "cover" : "contain";
+  }
+
   function fit() {
-    const chromeX = 56;
-    const chromeY = 104;
+    const mode = effectiveFitMode();
+    const chromeX = mode === "cover" ? 0 : 56;
+    const chromeY = mode === "cover" ? 0 : 104;
     const availableWidth = Math.max(320, window.innerWidth - chromeX);
     const availableHeight = Math.max(220, window.innerHeight - chromeY);
-    const scale = Math.max(0.1, Math.min(availableWidth / 1280, availableHeight / 720));
+    const scaleMode = mode === "cover" ? Math.max : Math.min;
+    const scale = Math.max(0.1, scaleMode(availableWidth / 1280, availableHeight / 720));
     const scaledWidth = 1280 * scale;
     const scaledHeight = 720 * scale;
-    const gapX = Math.max(0, (window.innerWidth - scaledWidth) / 2);
-    const gapY = Math.max(0, (window.innerHeight - scaledHeight) / 2);
-    const shellBottom = Math.max(14, Math.min(22, gapY - 30));
+    const gapX = (window.innerWidth - scaledWidth) / 2;
+    const gapY = (window.innerHeight - scaledHeight) / 2;
+    const shellBottom = mode === "cover" ? 14 : Math.max(14, Math.min(22, gapY - 30));
     const root = document.documentElement;
     root.style.setProperty("--deck-scale", String(scale));
     root.style.setProperty("--deck-left-gap", `${gapX.toFixed(2)}px`);
@@ -30,12 +49,24 @@
     root.style.setProperty("--deck-top-gap", `${gapY.toFixed(2)}px`);
     root.style.setProperty("--deck-bottom-gap", `${gapY.toFixed(2)}px`);
     root.style.setProperty("--chrome-bottom", `${shellBottom.toFixed(2)}px`);
-    document.body.classList.toggle("chrome-tight", gapY < 48);
+    document.body.dataset.effectiveDeckFit = mode;
+    document.body.classList.toggle("deck-fit-cover", mode === "cover");
+    document.body.classList.toggle("deck-fit-contain", mode === "contain");
+    document.body.classList.toggle("chrome-tight", mode === "contain" && gapY < 48);
+  }
+
+  function revealChrome() {
+    if (!controlHelp || overviewOpen) return;
+    document.body.classList.add("chrome-visible");
+    window.clearTimeout(chromeTimer);
+    chromeTimer = window.setTimeout(() => {
+      document.body.classList.remove("chrome-visible");
+    }, 1600);
   }
 
   function updateControlHelp() {
     if (!controlHelp) return;
-    controlHelp.textContent = `←/→ 翻页 · 滚轮/滑动 · B ${lowPower ? "动态" : "静态"}`;
+    controlHelp.textContent = `←/→ 翻页 · 滚轮/滑动 · ESC 预览 · B ${lowPower ? "动态" : "静态"}`;
   }
 
   function cancelActiveAnimations() {
@@ -221,6 +252,7 @@
   }
 
   function step(delta) {
+    if (overviewOpen) return;
     show(current + delta);
   }
 
@@ -233,6 +265,7 @@
       counter.textContent = `${String(current + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
     }
     updateNav();
+    updateOverview();
     const layout = slides[current].dataset.layout || `slide-${current + 1}`;
     history.replaceState(null, "", `#${layout}`);
     ambient.update(slides[current]);
@@ -266,6 +299,106 @@
       element.style.transform = "none";
       element.style.transformOrigin = "";
     });
+  }
+
+  function makeOverviewClone(slide) {
+    const clone = slide.cloneNode(true);
+    clone.classList.remove("active");
+    clone.removeAttribute("aria-hidden");
+    clone.querySelectorAll("[data-anim]").forEach((element) => {
+      element.style.opacity = "1";
+      element.style.transform = "none";
+      element.style.transformOrigin = "";
+    });
+    return clone;
+  }
+
+  function resizeOverviewThumbs() {
+    if (!overviewGrid) return;
+    overviewGrid.querySelectorAll(".overview-thumb").forEach((thumb) => {
+      const width = thumb.clientWidth || 1;
+      thumb.style.setProperty("--overview-scale", String(width / 1280));
+    });
+  }
+
+  function buildOverview() {
+    if (overview) return;
+    overview = document.createElement("div");
+    overview.className = "overview";
+    overview.id = "overview";
+    overview.hidden = true;
+    overview.setAttribute("role", "dialog");
+    overview.setAttribute("aria-modal", "true");
+    overview.setAttribute("aria-label", "All slide preview");
+
+    const header = document.createElement("div");
+    header.className = "overview-header";
+    header.innerHTML = '<div><div class="overview-kicker">Overview</div><h2>全页预览</h2></div><p>点击任一页面跳转，按 ESC 返回演示。</p>';
+
+    overviewGrid = document.createElement("div");
+    overviewGrid.className = "overview-grid";
+    slides.forEach((slide, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "overview-card";
+      button.dataset.index = String(index);
+      button.setAttribute("aria-label", `Preview slide ${index + 1}`);
+      const thumb = document.createElement("div");
+      thumb.className = "overview-thumb";
+      thumb.appendChild(makeOverviewClone(slide));
+      const meta = document.createElement("div");
+      meta.className = "overview-card-meta";
+      const layout = slide.dataset.layout || `slide-${index + 1}`;
+      meta.textContent = `${String(index + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")} · ${layout}`;
+      button.append(thumb, meta);
+      button.addEventListener("click", () => {
+        show(index);
+        closeOverview();
+      });
+      overviewGrid.appendChild(button);
+    });
+
+    overview.append(header, overviewGrid);
+    document.body.appendChild(overview);
+  }
+
+  function updateOverview() {
+    if (!overviewGrid) return;
+    overviewGrid.querySelectorAll(".overview-card").forEach((card) => {
+      const isCurrent = Number(card.dataset.index) === current;
+      card.classList.toggle("is-current", isCurrent);
+      card.setAttribute("aria-current", isCurrent ? "page" : "false");
+    });
+    resizeOverviewThumbs();
+  }
+
+  function openOverview() {
+    buildOverview();
+    overviewOpen = true;
+    overview.hidden = false;
+    document.body.classList.add("overview-open");
+    cancelActiveAnimations();
+    updateOverview();
+    requestAnimationFrame(() => {
+      resizeOverviewThumbs();
+      overviewGrid?.querySelector(".overview-card.is-current")?.focus({ preventScroll: true });
+    });
+  }
+
+  function closeOverview() {
+    if (!overview) return;
+    overviewOpen = false;
+    overview.hidden = true;
+    document.body.classList.remove("overview-open");
+    if (!lowPower) window.setTimeout(() => playSlide(current), 60);
+  }
+
+  function toggleOverview() {
+    if (overviewOpen) {
+      closeOverview();
+    } else {
+      openOverview();
+    }
   }
 
   function finalizeElement(element) {
@@ -411,13 +544,26 @@
   }
 
   window.addEventListener("resize", fit);
+  window.addEventListener("resize", resizeOverviewThumbs);
+  window.addEventListener("pointermove", revealChrome, { passive: true });
+  window.addEventListener("touchstart", revealChrome, { passive: true });
   window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      toggleOverview();
+      return;
+    }
+    if (event.key.toLowerCase() === "b") {
+      setLowPower(!lowPower);
+      return;
+    }
+    if (overviewOpen) return;
     if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") step(1);
     if (event.key === "ArrowLeft" || event.key === "PageUp") step(-1);
-    if (event.key.toLowerCase() === "b") setLowPower(!lowPower);
   });
 
   window.addEventListener("wheel", (event) => {
+    if (overviewOpen) return;
     if (wheelLock || Math.abs(event.deltaY) < 18) return;
     wheelLock = true;
     step(event.deltaY > 0 ? 1 : -1);
@@ -427,10 +573,12 @@
   }, { passive: true });
 
   window.addEventListener("touchstart", (event) => {
+    if (overviewOpen) return;
     touchStartX = event.changedTouches[0]?.clientX ?? null;
   }, { passive: true });
 
   window.addEventListener("touchend", (event) => {
+    if (overviewOpen) return;
     if (touchStartX === null) return;
     const delta = (event.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
     if (Math.abs(delta) > 48) step(delta < 0 ? 1 : -1);
@@ -445,8 +593,13 @@
     get lowPower() {
       return lowPower;
     },
+    get overviewOpen() {
+      return overviewOpen;
+    },
     setLowPower,
     show,
+    openOverview,
+    closeOverview,
   };
   fit();
   updateControlHelp();

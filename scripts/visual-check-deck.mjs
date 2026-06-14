@@ -153,12 +153,26 @@ async function runViewportSmokeChecks(browser, url) {
           return { left: r.left, top: r.top, right: r.right, bottom: r.bottom, width: r.width, height: r.height };
         }
 
+        function visible(el) {
+          if (!el) return false;
+          const r = el.getBoundingClientRect();
+          const style = getComputedStyle(el);
+          return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) > 0.05 && r.width > 0 && r.height > 0;
+        }
+
+        const nav = document.querySelector('#nav');
+        const counter = document.querySelector('#counter');
+        const controlHelp = document.querySelector('#controlHelp');
         return {
           activeRect: rectOf(document.querySelector('.slide.active')),
-          navRect: rectOf(document.querySelector('#nav')),
-          counterRect: rectOf(document.querySelector('#counter')),
-          controlHelpRect: rectOf(document.querySelector('#controlHelp')),
-          controlHelpText: document.querySelector('#controlHelp')?.textContent || '',
+          navRect: rectOf(nav),
+          counterRect: rectOf(counter),
+          controlHelpRect: rectOf(controlHelp),
+          navVisible: visible(nav),
+          counterVisible: visible(counter),
+          controlHelpVisible: visible(controlHelp),
+          fitMode: document.body.dataset.effectiveDeckFit || document.body.dataset.deckFit || 'cover',
+          controlHelpText: controlHelp?.textContent || '',
           activeTextLength: (document.querySelector('.slide.active')?.innerText || '').replace(/\s+/g, ' ').trim().length,
           viewport: { width: window.innerWidth, height: window.innerHeight },
         };
@@ -170,6 +184,62 @@ async function runViewportSmokeChecks(browser, url) {
   }
 
   return results;
+}
+
+async function runOverviewInteractionCheck(page, totalSlides) {
+  await page.evaluate(() => window.__bogeDeck?.show?.(0));
+  await page.waitForTimeout(220);
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(260);
+
+  const opened = await page.evaluate(() => {
+    const overview = document.querySelector('#overview');
+    const cards = [...document.querySelectorAll('.overview-card')];
+    return {
+      visible: Boolean(overview && !overview.hidden && document.body.classList.contains('overview-open')),
+      cardCount: cards.length,
+      currentCount: cards.filter((card) => card.classList.contains('is-current')).length,
+      currentIndex: Number(cards.find((card) => card.classList.contains('is-current'))?.dataset.index ?? -1),
+      hiddenAnimated: [...document.querySelectorAll('#overview [data-anim]')].filter((el) => {
+        const style = getComputedStyle(el);
+        return Number(style.opacity) < 0.95 || style.visibility === 'hidden';
+      }).length,
+      current: window.__bogeDeck?.current ?? -1,
+    };
+  });
+
+  await page.keyboard.press('ArrowRight');
+  await page.mouse.wheel(0, 500);
+  await page.waitForTimeout(180);
+  const afterBlockedNavigation = await page.evaluate(() => window.__bogeDeck?.current ?? -1);
+
+  let clickState = null;
+  if (totalSlides > 1) {
+    await page.click('.overview-card[data-index="1"]');
+    await page.waitForTimeout(260);
+    clickState = await page.evaluate(() => ({
+      current: window.__bogeDeck?.current ?? -1,
+      visible: Boolean(document.querySelector('#overview') && !document.querySelector('#overview').hidden),
+    }));
+  } else {
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(220);
+  }
+
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(220);
+  const reopened = await page.evaluate(() => Boolean(document.querySelector('#overview') && !document.querySelector('#overview').hidden));
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(220);
+  const closedAgain = await page.evaluate(() => Boolean(document.querySelector('#overview') && !document.querySelector('#overview').hidden));
+
+  return {
+    opened,
+    afterBlockedNavigation,
+    clickState,
+    reopened,
+    closedAgain,
+  };
 }
 
 const { serverRoot, routePath } = resolveServingTarget();
@@ -205,6 +275,13 @@ try {
         return (el?.innerText || '').replace(/\s+/g, ' ').trim();
       }
 
+      function visible(el) {
+        if (!el) return false;
+        const rect = el.getBoundingClientRect();
+        const style = getComputedStyle(el);
+        return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity) > 0.05 && rect.width > 0 && rect.height > 0;
+      }
+
       const activeSlides = [...document.querySelectorAll('.slide.active')];
       const active = activeSlides[0] || null;
       const footer = active?.querySelector('.footer') || null;
@@ -216,7 +293,10 @@ try {
         '.architecture', '.timeline', '.roadmap-track', '.priority-matrix', '.panel-50', '.diagram-row',
         '.quote', '.quote-source', '.image-frame', '.visual-panel', '.text-panel',
         '.concept-map', '.compare-board', '.loop-diagram', '.gallery-grid', '.spotlight-panel',
-        '.immersive-anchor', '.closing-actions', '.priority-items'
+        '.immersive-anchor', '.closing-actions', '.priority-items', '.template-showcase',
+        '.prototype-board', '.prototype-notes', '.signal-system', '.tech-system', '.decision-band',
+        '.system-stack', '.tech-radar', '.blueprint-grid', '.gallery-dashboard', '.delivery-row',
+        '.flow-strip', '.prototype-summary'
       ];
       const contentRects = contentSelectors
         .flatMap((selector) => [...(active?.querySelectorAll(selector) || [])])
@@ -236,6 +316,10 @@ try {
         counterText: counter?.textContent || '',
         controlHelpRect: rectOf(controlHelp),
         controlHelpText: controlHelp?.textContent || '',
+        navVisible: visible(nav),
+        counterVisible: visible(counter),
+        controlHelpVisible: visible(controlHelp),
+        fitMode: document.body.dataset.effectiveDeckFit || document.body.dataset.deckFit || 'cover',
         ambientRunning: document.body.dataset.ambientRunning || '0',
         navButtons: document.querySelectorAll('#nav button').length,
         unrevealedAnimCount: [...(active?.querySelectorAll('[data-anim]') || [])].filter((el) => {
@@ -262,25 +346,32 @@ try {
     if (state.navButtons !== totalSlides) errors.push(`Slide ${index + 1}: nav button count ${state.navButtons} does not match slide count ${totalSlides}.`);
     if (!state.counterText.includes(String(index + 1).padStart(2, '0'))) errors.push(`Slide ${index + 1}: counter text "${state.counterText}" does not include expected slide number.`);
     if (!state.controlHelpText.includes('B 静态') && !state.controlHelpText.includes('B 动态')) errors.push(`Slide ${index + 1}: control help does not include B static/dynamic guidance.`);
+    if (!state.controlHelpText.includes('ESC 预览')) errors.push(`Slide ${index + 1}: control help does not include ESC overview guidance.`);
     if (state.textLength < 30) errors.push(`Slide ${index + 1}: visible text is very short; page may be blank.`);
     if (!state.activeRect || state.activeRect.width < 1000 || state.activeRect.height < 560) errors.push(`Slide ${index + 1}: active slide bounds look wrong.`);
     if (state.unrevealedAnimCount > 0) errors.push(`Slide ${index + 1}: ${state.unrevealedAnimCount} animated element(s) are still hidden after the settle wait.`);
 
     const rect = state.activeRect;
-    if (rect && (rect.left < -2 || rect.top < -2 || rect.right > state.viewport.width + 2 || rect.bottom > state.viewport.height + 2)) {
-      errors.push(`Slide ${index + 1}: active slide extends outside viewport bounds.`);
+    if (state.fitMode === 'cover') {
+      if (rect && (rect.left > 2 || rect.top > 2 || rect.right < state.viewport.width - 2 || rect.bottom < state.viewport.height - 2)) {
+        errors.push(`Slide ${index + 1}: cover mode active slide does not fill the viewport.`);
+      }
+      if (state.navVisible) errors.push(`Slide ${index + 1}: page rail is visible in default cover mode.`);
+      if (state.counterVisible) errors.push(`Slide ${index + 1}: external counter is visible in default cover mode.`);
+    } else if (rect && (rect.left < -2 || rect.top < -2 || rect.right > state.viewport.width + 2 || rect.bottom > state.viewport.height + 2)) {
+      errors.push(`Slide ${index + 1}: contain mode active slide extends outside viewport bounds.`);
     }
 
-    if (intersects(state.footerRect, state.navRect)) errors.push(`Slide ${index + 1}: footer overlaps navigation dots.`);
-    if (intersects(state.footerRect, state.counterRect)) errors.push(`Slide ${index + 1}: footer overlaps counter.`);
-    if (intersects(state.footerRect, state.controlHelpRect)) errors.push(`Slide ${index + 1}: footer overlaps control help.`);
+    if (state.navVisible && intersects(state.footerRect, state.navRect)) errors.push(`Slide ${index + 1}: footer overlaps navigation dots.`);
+    if (state.counterVisible && intersects(state.footerRect, state.counterRect)) errors.push(`Slide ${index + 1}: footer overlaps counter.`);
+    if (state.controlHelpVisible && intersects(state.footerRect, state.controlHelpRect)) errors.push(`Slide ${index + 1}: footer overlaps control help.`);
 
     for (const item of [
-      { name: 'navigation dots', rect: state.navRect },
-      { name: 'counter', rect: state.counterRect },
-      { name: 'control help', rect: state.controlHelpRect },
+      { name: 'navigation dots', rect: state.navRect, visible: state.navVisible },
+      { name: 'counter', rect: state.counterRect, visible: state.counterVisible },
+      { name: 'control help', rect: state.controlHelpRect, visible: state.controlHelpVisible },
     ]) {
-      if (intersects(state.activeRect, item.rect)) {
+      if (item.visible && intersects(state.activeRect, item.rect)) {
         errors.push(`Slide ${index + 1}: ${item.name} overlaps the active slide.`);
       }
     }
@@ -334,25 +425,52 @@ try {
   if (lowPowerState.ambientRunning === '1') errors.push('Low-power mode did not stop the WebGL ambient background.');
   if (lowPowerState.hiddenAnimated > 0) errors.push(`Low-power mode left ${lowPowerState.hiddenAnimated} animated element(s) hidden.`);
 
+  const overviewState = await runOverviewInteractionCheck(page, totalSlides);
+  if (!overviewState.opened.visible) errors.push('ESC did not open the overview preview.');
+  if (overviewState.opened.cardCount !== totalSlides) errors.push(`Overview card count ${overviewState.opened.cardCount} does not match slide count ${totalSlides}.`);
+  if (overviewState.opened.currentCount !== 1 || overviewState.opened.currentIndex !== 0) errors.push('Overview did not mark exactly one current thumbnail for slide 1.');
+  if (overviewState.opened.hiddenAnimated > 0) errors.push(`Overview left ${overviewState.opened.hiddenAnimated} animated element(s) hidden.`);
+  if (overviewState.afterBlockedNavigation !== 0) errors.push('Overview allowed keyboard or wheel navigation to change the active slide.');
+  if (totalSlides > 1 && (overviewState.clickState?.current !== 1 || overviewState.clickState?.visible)) {
+    errors.push('Overview thumbnail click did not jump to slide 2 and close the preview.');
+  }
+  if (!overviewState.reopened) errors.push('ESC did not reopen the overview preview after thumbnail navigation.');
+  if (overviewState.closedAgain) errors.push('ESC did not close the overview preview when it was already open.');
+
   const viewportChecks = await runViewportSmokeChecks(browser, url);
   for (const check of viewportChecks) {
     const active = check.activeRect;
     const minWidth = check.width * 0.82;
     if (!active || active.width < minWidth || active.height < 120) {
       errors.push(`${check.name}: active slide is not visibly scaled into the viewport.`);
+    } else if (check.fitMode === 'cover') {
+      if (active.left > 2 || active.top > 2 || active.right < check.width - 2 || active.bottom < check.height - 2) {
+        errors.push(`${check.name}: cover mode slide does not fill the viewport.`);
+      }
     } else if (active.left < -2 || active.top < -2 || active.right > check.width + 2 || active.bottom > check.height + 2) {
-      errors.push(`${check.name}: active slide extends outside the viewport.`);
+      errors.push(`${check.name}: contain mode active slide extends outside the viewport.`);
     }
-    if (!check.navRect || check.navRect.left < 0 || check.navRect.right > check.width || check.navRect.bottom > check.height) {
+    if (check.navVisible) {
+      errors.push(`${check.name}: page rail should be hidden by default.`);
+    }
+    if (check.counterVisible) {
+      errors.push(`${check.name}: external counter should be hidden by default.`);
+    }
+    if (check.navVisible && (!check.navRect || check.navRect.left < 0 || check.navRect.right > check.width || check.navRect.bottom > check.height)) {
       errors.push(`${check.name}: navigation dots are outside the viewport.`);
     }
-    if (!check.controlHelpRect || check.controlHelpRect.left < 0 || check.controlHelpRect.right > check.width || check.controlHelpRect.bottom > check.height) {
+    if (check.controlHelpVisible && (!check.controlHelpRect || check.controlHelpRect.left < 0 || check.controlHelpRect.right > check.width || check.controlHelpRect.bottom > check.height)) {
       errors.push(`${check.name}: control help is outside the viewport.`);
     }
     if (!check.controlHelpText.includes('B 静态') && !check.controlHelpText.includes('B 动态')) {
       errors.push(`${check.name}: control help does not include B static/dynamic guidance.`);
     }
-    if (intersects(active, check.navRect) || intersects(active, check.controlHelpRect) || intersects(active, check.counterRect)) {
+    if (!check.controlHelpText.includes('ESC 预览')) {
+      errors.push(`${check.name}: control help does not include ESC overview guidance.`);
+    }
+    if ((check.navVisible && intersects(active, check.navRect))
+      || (check.controlHelpVisible && intersects(active, check.controlHelpRect))
+      || (check.counterVisible && intersects(active, check.counterRect))) {
       errors.push(`${check.name}: viewport controls overlap the scaled slide.`);
     }
     if (check.activeTextLength < 30) {
@@ -366,6 +484,7 @@ try {
     outputDir: runDir,
     slideCount: totalSlides,
     lowPowerState,
+    overviewState,
     viewportChecks,
     errors,
     warnings,

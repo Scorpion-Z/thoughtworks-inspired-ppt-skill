@@ -11,10 +11,10 @@ description: Generate high-impact browser-based HTML presentation decks for cons
 
 Generate a 16:9 browser presentation deck:
 
-- `index.html` with horizontal slide navigation.
+- `index.html` with full-browser slide presentation and keyboard/touch navigation.
 - `styles/thoughtworks-inspired.css`.
 - `assets/vendor/motion.js` for offline Motion One animation support.
-- `scripts/boge-deck-runtime.js` for navigation, motion, low-power mode, and lightweight WebGL ambience.
+- `scripts/boge-deck-runtime.js` for navigation, motion, `Esc` overview, low-power mode, and lightweight WebGL ambience.
 - Optional `images/` for user-provided or generated evidence images.
 - Optional `deck_outline.json` or rhythm table for iteration.
 
@@ -80,30 +80,43 @@ Read `references/image-prompts.md` only when images, screenshots, generated diag
 
 Write a compact rhythm table before editing HTML:
 
-Default consulting/template suite is 9 pages. Use this sequence unless the user asks for a different narrative length:
+Default consulting/template suite length is 12 pages. Choose the suite by scenario before writing slide content:
+
+Executive Transformation Suite for management transformation, operating mechanisms, governance, and executive reporting:
 
 ```text
-T01 -> T02 -> T05 -> T06 -> T08 -> T09 -> T11 -> T04 -> T14
+T01 -> T02 -> T03 -> T05 -> T07 -> T06 -> T08 -> T11 -> T12 -> T09 -> T13 -> T14
 ```
 
-Keep `examples/full-layout-demo/` as the full T01-T14 layout reference library; it is not the default generated deck length.
+Technology Strategy Suite for technology strategy, data/AI platforms, architecture, Technology Radar-style analysis, and engineering roadmaps:
+
+```text
+T01 -> T02 -> T03 -> T10 -> T06 -> T13 -> T09 -> T08 -> T04 -> T12 -> T05 -> T14
+```
+
+Use `examples/template-gallery/` to review the two-suite legend, page rhythm, and palette options, `examples/template-suite/` for Executive Transformation, and `examples/template-suite-technology/` for Technology Strategy. Keep `examples/full-layout-demo/` as the full T01-T14 layout reference library; it is not the default generated deck length.
 
 | Page | Layout | Core message | Visual form | Theme |
 |---|---|---|---|---|
 | 01 | T01 | Cover claim | 50/50 concept map | split |
 | 02 | T02 | Three executive conclusions | Cards | light |
 | 03 | T03 | Chapter pivot | Large statement | wave |
-| 04 | T05 | Diagnosis | Matrix | light |
-| 05 | T06 | Capability framework | Layers | light |
-| 06 | T08 | Roadmap | Timeline | light |
-| 07 | T14 | Final takeaway | Quote | dark |
+| 04 | T05/T10 | Diagnosis or technology radar | Matrix or radar | light |
+| 05 | T07/T06 | Operating shift or platform capability | Compare board or layers | light |
+| 06 | T06/T13 | Capability framework or solution blueprint | Layers or diagram cards | light |
+| 07 | T08/T09 | Roadmap or prioritization | Timeline or matrix | mist |
+| 08 | T11/T08 | Closed loop or architecture roadmap | Loop or timeline | light |
+| 09 | T12/T04 | Evidence or architecture principle | Evidence panel or insight statement | split/dark |
+| 10 | T09/T12 | Priority, evidence, or case proof | Matrix or evidence panel | light |
+| 11 | T13/T05 | Appendix, diagram set, or risk control | Gallery or matrix | mist/light |
+| 12 | T14 | Final takeaway | Quote/action close | dark |
 
 Rules:
 
 - Every slide has one core message.
 - Every slide uses a registered `Txx` layout.
 - 8+ slides need at least one `T03` section divider and one dark/wave/accent breathing page.
-- The fixed 9-page template suite may omit `T03` when it already alternates card, matrix, framework, roadmap, priority, loop, insight, and closing shapes.
+- The fixed 12-page template suite should include `T03` and one dark/wave/accent breathing page.
 - Do not use five consecutive pages with the same visual shape.
 - Titles must be conclusion sentences, not labels such as "背景介绍" or "工作安排".
 - Use motion markers only when they clarify reading order. Leave unmarked slides static rather than adding decorative movement.
@@ -130,10 +143,12 @@ Immediately replace:
 Set exactly one theme class on `<body>`:
 
 ```html
-<body class="theme-wave">
+<body class="theme-wave" data-deck-fit="cover">
 ```
 
 Choose from `theme-wave`, `theme-flamingo`, `theme-sapphire`, `theme-jade`, `theme-amethyst`, `theme-turmeric`.
+
+Use `data-deck-fit="cover"` by default for browser presentations. Use `contain` only when every pixel of the 16:9 canvas must stay visible in non-16:9 windows.
 
 ### Step 5 Fill Slides
 
@@ -157,7 +172,7 @@ Motion rules:
 - Do not add fluid backgrounds, parallax, or per-slide custom animation frameworks.
 - Do not add WebGL to normal content pages. The bundled lightweight WebGL canvas is controlled by the shared runtime and only appears on immersive pages.
 - Always keep content readable when motion is disabled. The template supports `B` to toggle low-power/static mode.
-- Keep `.control-help` discoverable in the lower presentation chrome so presenters see arrow/wheel/touch navigation and the current `B` dynamic/static state without covering the slide.
+- Keep `.control-help` in the HTML, but let the runtime auto-hide it. Do not show a persistent bottom page rail or external counter in generated decks; use `Esc` overview for page jumping.
 
 Writing rules for Chinese management decks:
 
@@ -199,8 +214,10 @@ node scripts/visual-check-deck.mjs index.html
 Then open `index.html` in a browser and inspect:
 
 - Arrow key, wheel, touch navigation, and `B` low-power toggle.
-- Lower presentation chrome control help switches between `B 静态` and `B 动态`.
-- No overlap between the slide canvas, footer, page rail, counter, or control help.
+- `Esc` opens full-page thumbnail overview; clicking a thumbnail jumps to that page and closes overview.
+- Deck fills the browser in desktop `cover` mode and does not show gray outer margins.
+- Bottom page rail and external counter stay hidden in normal presentation mode.
+- Auto-hidden control help includes `ESC 预览` and switches between `B 静态` and `B 动态` when visible.
 - Mobile/tablet smoke checks keep the scaled slide visible instead of showing a blank background.
 - Body text remains readable.
 - Motion final states are visible and not distracting.
@@ -237,6 +254,7 @@ boge-ppt-skill/
 └── examples/
     ├── full-layout-demo/
     ├── template-suite/
+    ├── template-suite-technology/
     └── template-gallery/
 ```
 

@@ -34,10 +34,16 @@ Short executive deck:
 T01 -> T02 -> T05 -> T06 -> T08 -> T14
 ```
 
-Default 9-page template suite:
+Executive Transformation 12-page suite:
 
 ```text
-T01 -> T02 -> T05 -> T06 -> T08 -> T09 -> T11 -> T04 -> T14
+T01 -> T02 -> T03 -> T05 -> T07 -> T06 -> T08 -> T11 -> T12 -> T09 -> T13 -> T14
+```
+
+Technology Strategy 12-page suite:
+
+```text
+T01 -> T02 -> T03 -> T10 -> T06 -> T13 -> T09 -> T08 -> T04 -> T12 -> T05 -> T14
 ```
 
 Standard transformation deck:
@@ -49,7 +55,7 @@ T01 -> T02 -> T03 -> T05 -> T07 -> T06 -> T09 -> T08 -> T11 -> T14
 Technology strategy deck:
 
 ```text
-T01 -> T02 -> T03 -> T04 -> T10 -> T06 -> T13 -> T08 -> T14
+T01 -> T02 -> T03 -> T10 -> T06 -> T13 -> T09 -> T08 -> T14
 ```
 
 Data governance deck:

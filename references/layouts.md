@@ -7,22 +7,31 @@ Read `layout-lock.md` first. Copy one skeleton, then replace text and assets. Ke
 Before writing slides:
 
 1. Confirm `templates/index.html` includes `styles/thoughtworks-inspired.css`.
-2. Confirm each slide has `class="slide {theme}"` and `data-layout="Txx"`.
-3. Confirm title text is a conclusion sentence.
-4. Confirm the page rhythm table alternates content shapes.
-5. Confirm local images under `images/` use `data-image-slot`.
-6. If motion is used, confirm `data-animate` and `data-anim` values are registered in `components.md`.
-7. Confirm the deck includes one `.control-help` outside the slide sections.
+2. Confirm `<body>` uses exactly one `theme-*` class and `data-deck-fit="cover"` unless the user explicitly needs `contain`.
+3. Confirm each slide has `class="slide {theme}"` and `data-layout="Txx"`.
+4. Confirm title text is a conclusion sentence.
+5. Confirm the page rhythm table alternates content shapes.
+6. Confirm local images under `images/` use `data-image-slot`.
+7. If motion is used, confirm `data-animate` and `data-anim` values are registered in `components.md`.
+8. Confirm the deck includes one `.control-help` outside the slide sections and does not show a persistent bottom page rail.
 
-## Recommended 9-Page Template Suite
+## Recommended 12-Page Template Suites
 
-Use this as the default suite when the user asks for a reusable consulting or transformation deck:
+Use one of these suites when the user asks for a reusable consulting deck. Keep both at 12 pages unless the user asks for a different length.
+
+Executive Transformation Suite for high-level transformation, operating mechanisms, governance, and executive reporting:
 
 ```text
-T01 -> T02 -> T05 -> T06 -> T08 -> T09 -> T11 -> T04 -> T14
+T01 -> T02 -> T03 -> T05 -> T07 -> T06 -> T08 -> T11 -> T12 -> T09 -> T13 -> T14
 ```
 
-This is the production template suite. `examples/full-layout-demo/` remains the complete T01-T14 layout library.
+Technology Strategy Suite for technology strategy, data/AI platforms, architecture, Technology Radar-style analysis, and engineering roadmaps:
+
+```text
+T01 -> T02 -> T03 -> T10 -> T06 -> T13 -> T09 -> T08 -> T04 -> T12 -> T05 -> T14
+```
+
+`examples/template-gallery/` shows the two-suite legend, rhythm, and palette options. `examples/full-layout-demo/` remains the complete T01-T14 layout library.
 
 ## T01 50/50 Cover
 
